@@ -39,7 +39,6 @@ Thumbs.db
 
 # IDE & tools
 .idea/
-.vscode/
 .claude/
 *.swp
 *.swo
@@ -48,3 +47,7 @@ Thumbs.db
 
 # Personal deploy scripts
 scripts/deploy-remote.sh
+branch_structure.json
+temp_auto_push.bat
+temp_interactive_push.bat
+.gitignore
