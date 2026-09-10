@@ -68,7 +68,8 @@ Missing type, missing WHAT/WHY/verification, impossible to review.
 | # | Hash | Message | What was solved |
 |---|------|---------|-----------------|
 | 1 | `a547155` | `feat: add nvidia nemotron-3.5-lightning-30b-a3b NIM model` | Catalog entry + aliases (`model_catalog.rs`), free pricing (`metering.rs`), wizard defaults (`init_wizard.rs`, `wizard.rs`), `.env.example` hint. Fixes Cosmos `Model not found: 404 page not found`. Verified: build OK, 993+289 tests OK, daemon healthy, 6 nvidia models, live chat returns `I'm doing well, thank you!`. Local-only (not committed): `~/.openfang/agents/Cosmos/agent.toml` fallback prefix fix. |
-| 2 | _(next)_ | _Add row here on each new commit on this branch_ | _e.g. second free NIM model, same template_ |
+| 2 | `7b56ae1` | `docs: add commit convention with feature/new_models log` | New `docs/commit-convention.md`: format, template, good/bad examples, living log. |
+| 3 | _(this commit)_ | `feat: add top 11 free NIM models to nvidia catalog` | 11 entries (`model_catalog.rs`, NIM 6→17, all `provider=nvidia` via NIM endpoint, 0.0/0.0 free): nano-3, diffusiongemma, deepseek-flash/pro, glimmer, laguna, gemma-4, gpt-oss, nemotron-51b, nemotron-super-120b, kimi-k3 + 22 aliases. Free pricing branches (`metering.rs`). Old 5 entries kept for backward compat; wizard default stays lightning (rank 1). Specs verified against build.nvidia.com model cards + live `/v1/models` (80 IDs). |
 
 Branch flow reminder:
 

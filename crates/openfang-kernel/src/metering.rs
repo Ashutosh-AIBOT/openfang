@@ -366,6 +366,22 @@ fn estimate_cost_rates(model: &str) -> (f64, f64) {
     if model.contains("nemotron-3.5-lightning") {
         return (0.0, 0.0);
     }
+    // Free-tier NIM models added in feature/new_models — all $0 on
+    // https://integrate.api.nvidia.com/v1 with NVIDIA_API_KEY.
+    if model.contains("nemotron-nano")
+        || model.contains("nemotron-super")
+        || model.contains("nemotron-51b")
+        || model.contains("diffusiongemma")
+        || model.contains("deepseek-v4")
+        || model.contains("muse-glimmer")
+        || model.contains("glimmer")
+        || model.contains("laguna")
+        || model.contains("gemma-4-31b")
+        || model.contains("gpt-oss")
+        || model.contains("kimi-k3")
+    {
+        return (0.0, 0.0);
+    }
     if model.contains("nemotron-4-340b") {
         return (4.20, 4.20);
     }
