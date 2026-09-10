@@ -363,6 +363,9 @@ fn estimate_cost_rates(model: &str) -> (f64, f64) {
     }
 
     // ── NVIDIA NIM ──────────────────────────────────────────────
+    if model.contains("nemotron-3.5-lightning") {
+        return (0.0, 0.0);
+    }
     if model.contains("nemotron-4-340b") {
         return (4.20, 4.20);
     }

@@ -1030,6 +1030,9 @@ fn builtin_aliases() -> HashMap<String, String> {
         ("codex-o4", "codex/o4-mini"),
         // NVIDIA NIM aliases
         ("nemotron", "nvidia/llama-3.1-nemotron-70b-instruct"),
+        ("nemotron-3.5-lightning", "nvidia/nemotron-3.5-lightning-30b-a3b"),
+        ("nemotron-lightning", "nvidia/nemotron-3.5-lightning-30b-a3b"),
+        ("nemotron-3.5", "nvidia/nemotron-3.5-lightning-30b-a3b"),
         // Venice aliases
         ("venice", "venice-uncensored"),
         // Claude Code aliases
@@ -2429,7 +2432,7 @@ fn builtin_models() -> Vec<ModelCatalogEntry> {
             aliases: vec![],
         },
         // ══════════════════════════════════════════════════════════════
-        // NVIDIA NIM (5)
+        // NVIDIA NIM (6)
         // ══════════════════════════════════════════════════════════════
         ModelCatalogEntry {
             id: "nvidia/llama-3.1-nemotron-70b-instruct".into(),
@@ -2500,6 +2503,24 @@ fn builtin_models() -> Vec<ModelCatalogEntry> {
             supports_vision: false,
             supports_streaming: true,
             aliases: vec!["nemotron-340b".into()],
+        },
+        ModelCatalogEntry {
+            id: "nvidia/nemotron-3.5-lightning-30b-a3b".into(),
+            display_name: "Nemotron 3.5 Lightning 30B (NVIDIA NIM)".into(),
+            provider: "nvidia".into(),
+            tier: ModelTier::Smart,
+            context_window: 1_000_000,
+            max_output_tokens: 16_384,
+            input_cost_per_m: 0.0,
+            output_cost_per_m: 0.0,
+            supports_tools: true,
+            supports_vision: false,
+            supports_streaming: true,
+            aliases: vec![
+                "nemotron-3.5-lightning".into(),
+                "nemotron-lightning".into(),
+                "nemotron-3.5".into(),
+            ],
         },
         // ══════════════════════════════════════════════════════════════
         // Ollama (6) — local, no key required + dynamic discovery
