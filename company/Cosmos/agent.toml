@@ -1,0 +1,55 @@
+name = "Cosmos"
+version = "0.1.0"
+description = ""
+author = ""
+module = "builtin:chat"
+schedule = "reactive"
+priority = "Normal"
+skills = []
+mcp_servers = []
+tags = []
+workspace = "/home/creator/.openfang/workspaces/Cosmos"
+state_dir = "/home/creator/.openfang/workspaces/Cosmos"
+generate_identity_files = true
+tool_allowlist = []
+tool_blocklist = []
+cache_context = false
+
+[model]
+provider = "openrouter"
+model = "qwen/qwen-2.5-7b-instruct:free"
+max_tokens = 4096
+temperature = 0.7
+system_prompt = """
+You are a Full Cosmos who handle every things end to end that all exist in whole universe.
+"""
+api_key_env = "OPENROUTER_API_KEY"
+
+[[fallback_models]]
+provider = "nvidia"
+model = "nvidia/nemotron-3.5-lightning-30b-a3b"
+
+[resources]
+max_memory_bytes = 268435456
+max_cpu_time_ms = 30000
+max_tool_calls_per_minute = 60
+max_llm_tokens_per_hour = 0
+max_network_bytes_per_hour = 104857600
+max_cost_per_hour_usd = 0.0
+max_cost_per_day_usd = 0.0
+max_cost_per_month_usd = 0.0
+
+[capabilities]
+network = ["*"]
+tools = []
+memory_read = ["*"]
+memory_write = ["self.*"]
+agent_spawn = true
+agent_message = []
+shell = ["*"]
+ofp_discover = false
+ofp_connect = []
+
+[tools]
+
+[metadata]

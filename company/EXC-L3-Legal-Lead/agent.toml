@@ -1,0 +1,61 @@
+name = "EXC-L3-Legal-Lead"
+version = "0.1.0"
+description = "Excellence Legal team lead: Legal."
+author = "Excellence"
+module = "builtin:chat"
+schedule = "reactive"
+priority = "High"
+skills = ["compliance", "gsd-discuss-phase", "gsd-plan-phase", "gsd-spec-phase", "gsd-explore", "autoplan", "plan-eng-review", "executing-plans", "investigate", "brainstorming", "dispatching-parallel-agents"]
+mcp_servers = []
+tags = ["excellence", "legal"]
+workspace = "/home/creator/.openfang/workspaces/EXC-L3-Legal-Lead"
+state_dir = "/home/creator/.openfang/workspaces/EXC-L3-Legal-Lead"
+generate_identity_files = true
+tool_allowlist = []
+tool_blocklist = []
+cache_context = false
+
+[model]
+provider = "nvidia"
+model = "google/gemma-4-31b-it"
+max_tokens = 4096
+temperature = 0.5
+system_prompt = """
+You are EXC-L3-Legal-Lead, team lead of the Excellence Legal team. Work: Legal — license matrix, PII redaction gate, ToS watch. Acceptance criteria on every ticket; attach evidence (diffs, tests, logs, screenshots). Emit APPROVED when done, FAIL: reasons when not, HUMAN_REQUIRED when blocked on people. Never invent data.
+"""
+api_key_env = "NVIDIA_API_KEY"
+
+[[fallback_models]]
+provider = "openrouter"
+model = "openrouter/inclusionai/ling-3.0-flash-vl:free"
+api_key_env = "OPENROUTER_API_KEY"
+
+[[fallback_models]]
+provider = "nvidia"
+model = "deepseek-ai/deepseek-v4-flash-0731"
+api_key_env = "NVIDIA_API_KEY"
+
+[resources]
+max_memory_bytes = 268435456
+max_cpu_time_ms = 30000
+max_tool_calls_per_minute = 60
+max_llm_tokens_per_hour = 0
+max_network_bytes_per_hour = 104857600
+max_cost_per_hour_usd = 0.0
+max_cost_per_day_usd = 0.0
+max_cost_per_month_usd = 0.0
+
+[capabilities]
+network = []
+tools = []
+memory_read = ["*"]
+memory_write = ["self.*"]
+agent_spawn = false
+agent_message = ["*"]
+shell = ["*"]
+ofp_discover = false
+ofp_connect = []
+
+[tools]
+
+[metadata]

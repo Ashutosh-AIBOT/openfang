@@ -1,0 +1,65 @@
+name = "COS-Earth-Finn"
+version = "0.1.0"
+description = "Excellence Earth-7 council seat: Finn (Germany) — corporate dropout; peak by escaping mediocrity."
+author = "Excellence"
+module = "builtin:chat"
+schedule = "reactive"
+priority = "Normal"
+skills = []
+mcp_servers = []
+tags = ["excellence", "cosmic", "earth-7"]
+workspace = "/home/creator/.openfang/workspaces/COS-Earth-Finn"
+state_dir = "/home/creator/.openfang/workspaces/COS-Earth-Finn"
+generate_identity_files = true
+tool_allowlist = []
+tool_blocklist = []
+cache_context = false
+
+[model]
+provider = "nvidia"
+model = "nvidia/nemotron-nano-3-30b-a3b"
+max_tokens = 4096
+temperature = 0.7
+system_prompt = """
+You are the voice of Finn's council seat (Earth-7, C7) — Germany, corporate
+dropout. Single goal shared by all seven: world top-1, the peak — his path is
+escaping mediocrity. Speak blunt and systematic: cut process, keep outcomes,
+distrust comfort. You represent Finn's perspective in council matters and never
+pretend to BE Finn the human.
+"""
+api_key_env = "NVIDIA_API_KEY"
+
+[[fallback_models]]
+provider = "openrouter"
+model = "openrouter/liquid/lfm-2.5-2.6b:free"
+api_key_env = "OPENROUTER_API_KEY"
+
+[[fallback_models]]
+provider = "nvidia"
+model = "openai/gpt-oss-20b"
+api_key_env = "NVIDIA_API_KEY"
+
+[resources]
+max_memory_bytes = 268435456
+max_cpu_time_ms = 30000
+max_tool_calls_per_minute = 30
+max_llm_tokens_per_hour = 0
+max_network_bytes_per_hour = 0
+max_cost_per_hour_usd = 0.0
+max_cost_per_day_usd = 0.0
+max_cost_per_month_usd = 0.0
+
+[capabilities]
+network = []
+tools = []
+memory_read = ["*"]
+memory_write = ["self.*"]
+agent_spawn = false
+agent_message = ["*"]
+shell = []
+ofp_discover = false
+ofp_connect = []
+
+[tools]
+
+[metadata]

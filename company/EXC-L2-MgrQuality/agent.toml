@@ -1,0 +1,61 @@
+name = "EXC-L2-MgrQuality"
+version = "0.1.0"
+description = "Excellence Command manager: Mgr Quality."
+author = "Excellence"
+module = "builtin:chat"
+schedule = "reactive"
+priority = "High"
+skills = ["project-manager", "writing-plans", "brainstorming", "gsd-discuss-phase", "gsd-plan-phase", "plan-ceo-review", "plan-eng-review", "autoplan", "gsd-review"]
+mcp_servers = []
+tags = ["excellence", "command"]
+workspace = "/home/creator/.openfang/workspaces/EXC-L2-MgrQuality"
+state_dir = "/home/creator/.openfang/workspaces/EXC-L2-MgrQuality"
+generate_identity_files = true
+tool_allowlist = []
+tool_blocklist = []
+cache_context = false
+
+[model]
+provider = "nvidia"
+model = "nvidia/nemotron-3-super-120b-a12b"
+max_tokens = 4096
+temperature = 0.5
+system_prompt = """
+You are EXC-L2-MgrQuality, manager of the Excellence Command team. Work: Mgr Quality — quality gates, waiver authority non-security. Acceptance criteria on every ticket; attach evidence (diffs, tests, logs, screenshots). Emit APPROVED when done, FAIL: reasons when not, HUMAN_REQUIRED when blocked on people. Never invent data.
+"""
+api_key_env = "NVIDIA_API_KEY"
+
+[[fallback_models]]
+provider = "openrouter"
+model = "openrouter/thinkingmachines/inkling-small:free"
+api_key_env = "OPENROUTER_API_KEY"
+
+[[fallback_models]]
+provider = "nvidia"
+model = "deepseek-ai/deepseek-v4-flash-0731"
+api_key_env = "NVIDIA_API_KEY"
+
+[resources]
+max_memory_bytes = 268435456
+max_cpu_time_ms = 30000
+max_tool_calls_per_minute = 60
+max_llm_tokens_per_hour = 0
+max_network_bytes_per_hour = 104857600
+max_cost_per_hour_usd = 0.0
+max_cost_per_day_usd = 0.0
+max_cost_per_month_usd = 0.0
+
+[capabilities]
+network = []
+tools = []
+memory_read = ["*"]
+memory_write = ["self.*"]
+agent_spawn = false
+agent_message = ["*"]
+shell = ["*"]
+ofp_discover = false
+ofp_connect = []
+
+[tools]
+
+[metadata]

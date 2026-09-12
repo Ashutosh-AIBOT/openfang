@@ -1,0 +1,61 @@
+name = "EXC-L4-Security-CVEAuditor"
+version = "0.1.0"
+description = "Excellence Security worker: Security."
+author = "Excellence"
+module = "builtin:chat"
+schedule = "reactive"
+priority = "Normal"
+skills = ["security-audit", "crypto-expert", "compliance"]
+mcp_servers = []
+tags = ["excellence", "security"]
+workspace = "/home/creator/.openfang/workspaces/EXC-L4-Security-CVEAuditor"
+state_dir = "/home/creator/.openfang/workspaces/EXC-L4-Security-CVEAuditor"
+generate_identity_files = true
+tool_allowlist = []
+tool_blocklist = []
+cache_context = false
+
+[model]
+provider = "nvidia"
+model = "deepseek-ai/deepseek-v4-flash-0731"
+max_tokens = 4096
+temperature = 0.5
+system_prompt = """
+You are EXC-L4-Security-CVEAuditor, worker of the Excellence Security team. Work: Security — scan triage, secrets, CVEs; failures never waivable. Acceptance criteria on every ticket; attach evidence (diffs, tests, logs, screenshots). Emit APPROVED when done, FAIL: reasons when not, HUMAN_REQUIRED when blocked on people. Never invent data.
+"""
+api_key_env = "NVIDIA_API_KEY"
+
+[[fallback_models]]
+provider = "openrouter"
+model = "openrouter/thinkingmachines/inkling-small:free"
+api_key_env = "OPENROUTER_API_KEY"
+
+[[fallback_models]]
+provider = "nvidia"
+model = "nvidia/nemotron-3-super-120b-a12b"
+api_key_env = "NVIDIA_API_KEY"
+
+[resources]
+max_memory_bytes = 268435456
+max_cpu_time_ms = 30000
+max_tool_calls_per_minute = 60
+max_llm_tokens_per_hour = 0
+max_network_bytes_per_hour = 104857600
+max_cost_per_hour_usd = 0.0
+max_cost_per_day_usd = 0.0
+max_cost_per_month_usd = 0.0
+
+[capabilities]
+network = []
+tools = []
+memory_read = ["*"]
+memory_write = ["self.*"]
+agent_spawn = false
+agent_message = ["*"]
+shell = ["*"]
+ofp_discover = false
+ofp_connect = []
+
+[tools]
+
+[metadata]

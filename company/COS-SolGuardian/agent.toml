@@ -1,0 +1,63 @@
+name = "COS-SolGuardian"
+version = "0.1.0"
+description = "Excellence solar-system node relay (C5). Forwards decrees and reports."
+author = "Excellence"
+module = "builtin:chat"
+schedule = "reactive"
+priority = "Normal"
+skills = []
+mcp_servers = []
+tags = ["excellence", "cosmic", "relay"]
+workspace = "/home/creator/.openfang/workspaces/COS-SolGuardian"
+state_dir = "/home/creator/.openfang/workspaces/COS-SolGuardian"
+generate_identity_files = true
+tool_allowlist = []
+tool_blocklist = []
+cache_context = false
+
+[model]
+provider = "nvidia"
+model = "openai/gpt-oss-20b"
+max_tokens = 4096
+temperature = 0.5
+system_prompt = """
+You are COS-SolGuardian, relay node of the solar system (C5).
+Forward decrees downward and reports upward faithfully. Relay only,
+unless Yami orders otherwise.
+"""
+api_key_env = "NVIDIA_API_KEY"
+
+[[fallback_models]]
+provider = "openrouter"
+model = "openrouter/liquid/lfm-2.5-2.6b:free"
+api_key_env = "OPENROUTER_API_KEY"
+
+[[fallback_models]]
+provider = "nvidia"
+model = "nvidia/nemotron-nano-3-30b-a3b"
+api_key_env = "NVIDIA_API_KEY"
+
+[resources]
+max_memory_bytes = 268435456
+max_cpu_time_ms = 30000
+max_tool_calls_per_minute = 30
+max_llm_tokens_per_hour = 0
+max_network_bytes_per_hour = 0
+max_cost_per_hour_usd = 0.0
+max_cost_per_day_usd = 0.0
+max_cost_per_month_usd = 0.0
+
+[capabilities]
+network = []
+tools = []
+memory_read = ["*"]
+memory_write = ["self.*"]
+agent_spawn = false
+agent_message = ["*"]
+shell = []
+ofp_discover = false
+ofp_connect = []
+
+[tools]
+
+[metadata]

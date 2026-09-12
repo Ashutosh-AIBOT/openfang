@@ -1,0 +1,68 @@
+name = "COS-Earth-Yami-Company"
+version = "0.1.0"
+description = "Yami's personal helper for company matters: decisions, priorities, business writing."
+author = "Excellence"
+module = "builtin:chat"
+schedule = "reactive"
+priority = "High"
+skills = []
+mcp_servers = []
+tags = ["excellence", "yami-helper", "company"]
+workspace = "/home/creator/.openfang/workspaces/COS-Earth-Yami-Company"
+state_dir = "/home/creator/.openfang/workspaces/COS-Earth-Yami-Company"
+generate_identity_files = true
+tool_allowlist = []
+tool_blocklist = []
+cache_context = false
+
+[model]
+provider = "nvidia"
+model = "nvidia/nemotron-3.5-lightning-30b-a3b"
+max_tokens = 4096
+temperature = 0.5
+system_prompt = """
+You are COS-Earth-Yami-Company, Yami's company overseer (reports to
+COS-Earth-Yami). Convention chain: YAMI → YOU → all 210 Excellence agents.
+Yami runs multiple companies; Excellence is one of them, and YOU are the single
+person who sees all 210 under you: 5 overhead (Founder, 3 Managers,
+Release-Gate) + 24 company teams + Legal + Product.
+You prepare decision briefs, priority rankings, business writing, and fleet
+summaries for the owner. You advise and draft — Yami decides. If data is
+missing, say so instead of inventing it.
+"""
+api_key_env = "NVIDIA_API_KEY"
+
+[[fallback_models]]
+provider = "openrouter"
+model = "openrouter/nvidia/nemotron-3.5-lightning:free"
+api_key_env = "OPENROUTER_API_KEY"
+
+[[fallback_models]]
+provider = "nvidia"
+model = "nvidia/nemotron-nano-3-30b-a3b"
+api_key_env = "NVIDIA_API_KEY"
+
+[resources]
+max_memory_bytes = 268435456
+max_cpu_time_ms = 30000
+max_tool_calls_per_minute = 60
+max_llm_tokens_per_hour = 0
+max_network_bytes_per_hour = 0
+max_cost_per_hour_usd = 0.0
+max_cost_per_day_usd = 0.0
+max_cost_per_month_usd = 0.0
+
+[capabilities]
+network = []
+tools = []
+memory_read = ["*"]
+memory_write = ["self.*"]
+agent_spawn = false
+agent_message = ["*"]
+shell = []
+ofp_discover = false
+ofp_connect = []
+
+[tools]
+
+[metadata]

@@ -1,0 +1,65 @@
+name = "COS-CommsRelay"
+version = "0.1.0"
+description = "Excellence multiverse executive relay: sees all agents fleet-wide and dispatches work/research on Yami's order."
+author = "Excellence"
+module = "builtin:chat"
+schedule = "reactive"
+priority = "High"
+skills = []
+mcp_servers = []
+tags = ["excellence", "cosmic", "relay"]
+workspace = "/home/creator/.openfang/workspaces/COS-CommsRelay"
+state_dir = "/home/creator/.openfang/workspaces/COS-CommsRelay"
+generate_identity_files = true
+tool_allowlist = []
+tool_blocklist = []
+cache_context = false
+
+[model]
+provider = "nvidia"
+model = "nvidia/nemotron-3.5-lightning-30b-a3b"
+max_tokens = 4096
+temperature = 0.5
+system_prompt = """
+You are COS-CommsRelay, executive relay of the Excellence multiverse (C1).
+You see every agent's state across the whole fleet — not only the company.
+When Yami orders work or research for any agent, team, or place, you dispatch it:
+spawn or message the right agents with precise scoped instructions and collect acknowledgements.
+You never do silent partial work. If all routes fail, emit HUMAN_REQUIRED with reasons.
+"""
+api_key_env = "NVIDIA_API_KEY"
+
+[[fallback_models]]
+provider = "openrouter"
+model = "openrouter/nvidia/nemotron-3.5-lightning:free"
+api_key_env = "OPENROUTER_API_KEY"
+
+[[fallback_models]]
+provider = "nvidia"
+model = "nvidia/nemotron-nano-3-30b-a3b"
+api_key_env = "NVIDIA_API_KEY"
+
+[resources]
+max_memory_bytes = 268435456
+max_cpu_time_ms = 30000
+max_tool_calls_per_minute = 60
+max_llm_tokens_per_hour = 0
+max_network_bytes_per_hour = 104857600
+max_cost_per_hour_usd = 0.0
+max_cost_per_day_usd = 0.0
+max_cost_per_month_usd = 0.0
+
+[capabilities]
+network = []
+tools = []
+memory_read = ["*"]
+memory_write = ["self.*"]
+agent_spawn = true
+agent_message = ["*"]
+shell = []
+ofp_discover = false
+ofp_connect = []
+
+[tools]
+
+[metadata]
