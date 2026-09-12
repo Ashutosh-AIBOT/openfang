@@ -1,5 +1,8 @@
 # Laptop Fleet Setup — Full Guide (Excellence Company)
 
+> New here? **Read this file top to bottom, then run one command.**
+> Everything is explained in order: fork → clone → auto-setup → verify → daily use.
+
 You do **4 small manual things**. An agent (or the script) does **everything else
 automatically**, with paths detected from your laptop (Linux, macOS, or WSL —
 pick any folder, including a `D:` drive folder under WSL/mapped drives).
@@ -38,9 +41,9 @@ git push origin feature/new_models                  # send your work to your for
 ## Part 2 — Automatic setup (agent runs; paths auto-detect)
 
 ```bash
-bash fleet-setup/setup.sh              # defaults, prompts for keys once
+bash yami/setup/setup.sh              # defaults, prompts for keys once
 # or fully custom:
-WORKSHOP_DIR="/mnt/d/Project-Workshop" bash fleet-setup/setup.sh
+WORKSHOP_DIR="/mnt/d/Project-Workshop" bash yami/setup/setup.sh
 ```
 
 The script automatically: detects OS/HOME → checks prereqs → copies all

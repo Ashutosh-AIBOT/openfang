@@ -3,7 +3,7 @@
 # Detects OS/HOME automatically. Never pushes, merges, commits, or prints keys.
 set -euo pipefail
 
-REPO="$(cd "$(dirname "$0")/.." && pwd)"
+REPO="$(cd "$(dirname "$0")/../.." && pwd)"
 OF_HOME="${OPENFANG_HOME:-$HOME/.openfang}"
 WORKSHOP_DIR="${WORKSHOP_DIR:-$HOME/Desktop/Project-Workshop}"
 DRY_RUN="${DRY_RUN:-0}"
