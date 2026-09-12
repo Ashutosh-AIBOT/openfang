@@ -415,8 +415,18 @@ fn assemble_assistant_message(
     // regardless of which server version we're talking to. Old servers
     // ignore `reasoning`; new vLLM ignores `reasoning_content` (and would
     // otherwise silently strip our thinking, see PR vllm#33402).
+    //
+    // EXCEPTION: NVIDIA NIM uses a strict deserializer that rejects the
+    // request when both fields are present ("duplicate field
+    // `reasoning_content"). NIM speaks DeepSeek-style `reasoning_content`,
+    // so emit only that field there.
+    let nvidia_strict = driver.base_url.contains("nvidia");
     let (reasoning_content, reasoning) = if let Some(text) = reasoning_field {
-        (Some(text.clone()), Some(text))
+        if nvidia_strict {
+            (Some(text.clone()), None)
+        } else {
+            (Some(text.clone()), Some(text))
+        }
     } else if needs_reasoning {
         // Moonshot/Kimi legacy contract: empty `reasoning_content` to disable
         // thinking on tool-call multi-turn. The `reasoning` field stays unset.

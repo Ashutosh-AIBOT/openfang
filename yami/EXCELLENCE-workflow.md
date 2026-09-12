@@ -202,3 +202,95 @@ Real-world grounding (same information carried inside every workflow step prompt
 | C7 | Earth-7 council (LIVE agents, one per person) | COS-Earth-Yami (you — country/situation: you confirm) + COS-Earth-Kai (Japan, ex-game-dev rebuilding after burnout, peak through craft) + COS-Earth-Zara (Nigeria, self-taught on low resources, origin-is-no-cap) + COS-Earth-Mateo (Brazil, freelancer supporting family, freedom-through-mastery) + COS-Earth-Anya (Ukraine, displaced student, rebuild-through-skill) + COS-Earth-Finn (Germany, corporate dropout, anti-mediocrity) + COS-Earth-Joon (South Korea, night-shift worker, sheer-hours). One goal: world top-1, the peak. EarthGod routes per-seat; Voice digests per-seat. | Yami: lightning → or-lightning → nano-3; six: nano-3 → lfm → gpt-oss-20b |
 
 Down-channel: Founder decree → CommsRelay fan-out → acknowledgements collected. Up-channel: fleet → Cosmos → VoiceOfYami → WebChat digest to Yami. TheOne/TheVoid wire in when Yami defines duties. No Cerebras anywhere; no new Rust code — all 11 are `agent.toml` registrations (kernel auto-spawn).
+
+## Part 9 — Pipeline hardening: map, gates, trust, never-do (added 2026-09-12, verified live)
+
+> Why this part exists: the PinNotes-v2 probe proved the fleet works but exposed exactly where it breaks.
+> Every rule below traces to a live incident. Nothing here is theory.
+
+### §A. Pipeline map — how work actually flows (measured)
+
+```
+Order (chat VoiceOfYami / workflow run / cron)
+  → Founder (L1) splits into SLICES (see §B, slice-budget gate)
+  → L2 managers assign → L3 leads own → L4 workers execute → L5 QA verdicts
+  → gate literals bubble up (APPROVED / FAIL: / HUMAN_REQUIRED:)
+  → VoiceOfYami bottom-up report → digest to Yami
+```
+
+Measured hop budgets (do not design against faster numbers):
+| Hop | Budget | Evidence |
+|---|---|---|
+| Front-door turn (HTTP `/message`, cron `agent_turn`) | **120s hard cap** | `TOOL_TIMEOUT_SECS=120` (`agent_loop.rs:47`); cron run `timed out after 120s` |
+| `agent_send` chain (one delegation hop, full downstream loop) | **600s** | `AGENT_TOOL_TIMEOUT_SECS=600` (`agent_loop.rs:54`) |
+| Simple ping turn (glimmer/laguna, warm) | 5–30s | measured: Voice 9s, Backend-Lead 13s, Design-Lead 30s, Founder 7s |
+| Cold / big-context turn | 120s+ (times out) | Founder delegate turn died at cap twice |
+
+Consequence (locked): **no single turn may carry more than ~100s of work.** Everything bigger is sliced.
+
+### §B. Gate catalog — where checks sit
+
+| # | Gate | Fires when | Owner | Evidence lands in |
+|---|---|---|---|---|
+| G0 Entry | Mission shape wrong (no location, no acceptance, no stack) | Founder | Rejected back to sender, no dispatch |
+| G1 Slice-budget | Any slice estimated >100s or >6 tool calls | L2-Router (§D) | Slice split plan in ticket |
+| G2 State-to-disk | Slice ends without writing progress file | Worker | `FAIL:` back, slice re-queued once |
+| G3 Approval tier | Tool risk High/Critical (shell, file_write/delete) | Kernel policy + Yami dashboard | `/api/approvals` card; 300s timeout → auto-deny (fail-safe) |
+| G4 Evidence | `APPROVED` without linked diff/test/log/screenshot | L5-Evidence-Auditor (§C) | `FAIL:` back to sender, no bubble-up |
+| G5 Digest-freshness | Reporter counts vs live registry differ >5% | Reporter cron + auditor | `HUMAN_REQUIRED` + auto-recount |
+| G6 QA verdict | UI/latency/acceptance unmet | Team L5 QA | `FAIL:` + diagnosis, ≤3 prompt-surgery retries |
+| G7 Escalation | 3rd retry fails, security FAIL, missing secret | Healer → Yami | `HUMAN_REQUIRED` with full trail |
+| G8 Promote | `beta→yami` without build+clippy+test green | git-instruction §C | Merge blocked, human decides |
+
+Approval tiers (live config `~/.openfang/config.toml [approval]`): auto = chat/reads/web_fetch/browser
+(Low/Medium); dashboard = `shell_exec`, `file_write`, `file_delete` (High/Critical). Agents: batch shell
+into few commands, never request approval for auto-tier, one click per card context.
+
+### §C. Trust batch (build FIRST — ordered by Yami)
+
+1. **L5-Evidence-Auditor** (new agent, per-team QA attach): rule — any `APPROVED` lacking evidence
+   (diff, test output, log line, screenshot path) is rewritten to `FAIL: no evidence` and returned.
+   No evidence ever bubbles up.
+2. **Digest-freshness gate** (reporter cron + check): before each digest, compare reported
+   Running count vs `GET /api/agents` length; mismatch >5% → auto-recount once, still stale →
+   `HUMAN_REQUIRED` (known incident: digest said 49 with 272 live).
+3. **Ops-Janitor** (new agent + 15-min cron): watches `/tmp` pressure (>80% → clear stale ownerless
+   dumps, never touch open fds), disk, daemon liveness (`/api/health`); pages Yami BEFORE builds
+   break. (Known incident: 326 × 13.7MB Electron dumps filled `/tmp` twice in one day.)
+4. **Model-Paramedic rule** (all agents, codified): on LLM 400-class driver errors
+   (`reasoning_content` duplication and kin) → switch to next fallback model immediately, log
+   incident line to workspace, continue. Never retry the same model twice in one turn.
+   (Known incident: 42 glimmer agents tool-dead until `openai.rs` NVIDIA single-field fix.)
+
+### §D. Throughput batch (build SECOND)
+
+1. **L2-Router dispatcher** (new agent): owns slicing only. Input: mission. Output: slices ≤100s each
+   with state-file paths, dispatched detached (one-shot cron jobs), never holding the 120s front door.
+   Founder approves slice plans; Router executes fan-out; leads never wait on Founder's turn.
+2. **State-to-disk gate** (protocol): every slice declares `STATE_FILE` first; every completion appends
+   one line (done/fail + evidence path). Poll state files, never turns. (`~/.cache/audit/`, never `/tmp`.)
+3. **Approval-batching rule**: workers group shell/file ops per slice into ≤2 approval cards; cards carry
+   full command text so one Yami click decides.
+4. **Front-door workaround note** (upstream): deep `agent_send` chains always outrun the 120s HTTP/cron
+   cap — that is a platform limit, not an agent failure. Route around via Router + detached jobs until
+   upstream raises the cap or streams progress.
+
+### §E. Never-do list (unified — inspector + agents, violations escalate to Yami)
+
+Inspector (the checker role):
+1. NEVER write project code, run user workloads, or hold user ports — verify only (`curl`, GETs, logs).
+2. NEVER broad `pkill` — daemon lifecycle via `systemd-run --user` unit + `systemctl --user` only.
+3. NEVER stage work in `/tmp` (fills + wipes) — `~/.cache/audit/`; NEVER `~` inside tool args — absolute paths.
+4. NEVER force turns past platform caps — slice ≤100s, poll state, respect 120s/600s budgets.
+5. Audit is read-only on git (`ls-files`, `ls-tree`, `log`); no checkout/add/commit during checks.
+6. NEVER approve on Yami's behalf — dashboard approvals are the human's explicit gate.
+
+Agents (all 210 + cosmic):
+7. Gate literals mandatory on every completion; `APPROVED` without evidence is a violation (G4).
+8. Never wait silently — if blocked >3 min, emit `HUMAN_REQUIRED` with trail; never spin.
+9. Never request approval for auto-tier tools; batch High/Critical with full context.
+10. Never hold the front door — delegate via detached slices; Router owns fan-out.
+11. exc-evolve logging on every task (private + shared tracks); repeat-questions-to-Yami count must stay zero.
+12. Secrets never in logs, lessons, commits, or chat — key names only.
+
+Last verified: 2026-09-12. Daemon `0.6.9` via `openfang-daemon` user unit, 272 agents, policy hot-applied.
