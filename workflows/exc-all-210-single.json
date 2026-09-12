@@ -1,0 +1,3921 @@
+{
+  "id": "31050e79-97cb-4beb-a5a5-194579c5e24f",
+  "name": "exc-all-210-single",
+  "description": "Excellence single end-to-end run: Founder kickoff -> 26 team blocks in pipeline order (workers parallel per team, lead bundle, QA gate loop) -> manager checkpoints -> release E2E -> founder sign. One task in, company release out.",
+  "steps": [
+    {
+      "name": "founder-kickoff",
+      "agent": {
+        "name": "EXC-L1-Founder"
+      },
+      "prompt_template": "You are EXC-L1-Founder: open this company ticket with strategy bounds and sign the kickoff with KICKOFF.\n\n{{input}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "kickoff"
+    },
+    {
+      "name": "research-brief",
+      "agent": {
+        "name": "EXC-L3-Research-Lead"
+      },
+      "prompt_template": "You are EXC-L3-Research-Lead: split this ticket for your team (research memos with claims, sources and confidence scores). Reply BRIEFED with the slices.\n\nTicket:\n{{kickoff}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "research_brief"
+    },
+    {
+      "name": "research-w-reqminer",
+      "agent": {
+        "name": "EXC-L4-Research-ReqMiner"
+      },
+      "prompt_template": "You are EXC-L4-Research-ReqMiner (Research team): do your part — research memos with claims, sources and confidence scores. End with APPROVED or FAIL: reasons.\n\n{{research_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "research_reqminer"
+    },
+    {
+      "name": "research-w-evidencehunter",
+      "agent": {
+        "name": "EXC-L4-Research-EvidenceHunter"
+      },
+      "prompt_template": "You are EXC-L4-Research-EvidenceHunter (Research team): do your part — research memos with claims, sources and confidence scores. End with APPROVED or FAIL: reasons.\n\n{{research_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "research_evidencehunter"
+    },
+    {
+      "name": "research-w-competitorscout",
+      "agent": {
+        "name": "EXC-L4-Research-CompetitorScout"
+      },
+      "prompt_template": "You are EXC-L4-Research-CompetitorScout (Research team): do your part — research memos with claims, sources and confidence scores. End with APPROVED or FAIL: reasons.\n\n{{research_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "research_competitorscout"
+    },
+    {
+      "name": "research-w-riskanalyst",
+      "agent": {
+        "name": "EXC-L4-Research-RiskAnalyst"
+      },
+      "prompt_template": "You are EXC-L4-Research-RiskAnalyst (Research team): do your part — research memos with claims, sources and confidence scores. End with APPROVED or FAIL: reasons.\n\n{{research_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "research_riskanalyst"
+    },
+    {
+      "name": "research-w-feasibilityprober",
+      "agent": {
+        "name": "EXC-L4-Research-FeasibilityProber"
+      },
+      "prompt_template": "You are EXC-L4-Research-FeasibilityProber (Research team): do your part — research memos with claims, sources and confidence scores. End with APPROVED or FAIL: reasons.\n\n{{research_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "research_feasibilityprober"
+    },
+    {
+      "name": "research-w-estimatescribe",
+      "agent": {
+        "name": "EXC-L4-Research-EstimateScribe"
+      },
+      "prompt_template": "You are EXC-L4-Research-EstimateScribe (Research team): do your part — research memos with claims, sources and confidence scores. End with APPROVED or FAIL: reasons.\n\n{{research_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "research_estimatescribe"
+    },
+    {
+      "name": "research-w-visionresearcher",
+      "agent": {
+        "name": "EXC-L4-Research-VisionResearcher"
+      },
+      "prompt_template": "You are EXC-L4-Research-VisionResearcher (Research team): do your part — research memos with claims, sources and confidence scores. End with APPROVED or FAIL: reasons.\n\n{{research_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "research_visionresearcher"
+    },
+    {
+      "name": "research-w-sourceverifier",
+      "agent": {
+        "name": "EXC-L4-Research-SourceVerifier"
+      },
+      "prompt_template": "You are EXC-L4-Research-SourceVerifier (Research team): do your part — research memos with claims, sources and confidence scores. End with APPROVED or FAIL: reasons.\n\n{{research_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "research_sourceverifier"
+    },
+    {
+      "name": "research-gather-0",
+      "agent": {
+        "name": "EXC-L3-Research-Lead"
+      },
+      "prompt_template": "unused",
+      "mode": "collect",
+      "timeout_secs": 120,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "research-w-memosmith",
+      "agent": {
+        "name": "EXC-L4-Research-MemoSmith"
+      },
+      "prompt_template": "You are EXC-L4-Research-MemoSmith (Research team): do your part — research memos with claims, sources and confidence scores. End with APPROVED or FAIL: reasons.\n\n{{research_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "research_memosmith"
+    },
+    {
+      "name": "research-w-confidencescorer",
+      "agent": {
+        "name": "EXC-L4-Research-ConfidenceScorer"
+      },
+      "prompt_template": "You are EXC-L4-Research-ConfidenceScorer (Research team): do your part — research memos with claims, sources and confidence scores. End with APPROVED or FAIL: reasons.\n\n{{research_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "research_confidencescorer"
+    },
+    {
+      "name": "research-gather-1",
+      "agent": {
+        "name": "EXC-L3-Research-Lead"
+      },
+      "prompt_template": "unused",
+      "mode": "collect",
+      "timeout_secs": 120,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "research-bundle",
+      "agent": {
+        "name": "EXC-L3-Research-Lead"
+      },
+      "prompt_template": "You are EXC-L3-Research-Lead: bundle team outputs into one handoff packet with evidence checklist.\n\n{{input}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "research_handoff"
+    },
+    {
+      "name": "research-gate",
+      "agent": {
+        "name": "EXC-L5-Research-QA"
+      },
+      "prompt_template": "You are EXC-L5-Research-QA: verify against acceptance criteria + Prompt-Surgeon rewrite on fail. Reply APPROVED or FAIL: reasons.\n\n{{research_handoff}}",
+      "mode": {
+        "loop": {
+          "max_iterations": 3,
+          "until": "APPROVED"
+        }
+      },
+      "timeout_secs": 300,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "architecture-brief",
+      "agent": {
+        "name": "EXC-L3-Architecture-Lead"
+      },
+      "prompt_template": "You are EXC-L3-Architecture-Lead: split this ticket for your team (RFCs, frozen contracts and ADRs). Reply BRIEFED with the slices.\n\nTicket:\n{{research_handoff}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "architecture_brief"
+    },
+    {
+      "name": "architecture-w-contractwriter",
+      "agent": {
+        "name": "EXC-L4-Architecture-ContractWriter"
+      },
+      "prompt_template": "You are EXC-L4-Architecture-ContractWriter (Architecture team): do your part — RFCs, frozen contracts and ADRs. End with APPROVED or FAIL: reasons.\n\n{{architecture_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "architecture_contractwriter"
+    },
+    {
+      "name": "architecture-w-schemadesigner",
+      "agent": {
+        "name": "EXC-L4-Architecture-SchemaDesigner"
+      },
+      "prompt_template": "You are EXC-L4-Architecture-SchemaDesigner (Architecture team): do your part — RFCs, frozen contracts and ADRs. End with APPROVED or FAIL: reasons.\n\n{{architecture_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "architecture_schemadesigner"
+    },
+    {
+      "name": "architecture-w-adrscribe",
+      "agent": {
+        "name": "EXC-L4-Architecture-ADRscribe"
+      },
+      "prompt_template": "You are EXC-L4-Architecture-ADRscribe (Architecture team): do your part — RFCs, frozen contracts and ADRs. End with APPROVED or FAIL: reasons.\n\n{{architecture_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "architecture_adrscribe"
+    },
+    {
+      "name": "architecture-w-boundarymapper",
+      "agent": {
+        "name": "EXC-L4-Architecture-BoundaryMapper"
+      },
+      "prompt_template": "You are EXC-L4-Architecture-BoundaryMapper (Architecture team): do your part — RFCs, frozen contracts and ADRs. End with APPROVED or FAIL: reasons.\n\n{{architecture_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "architecture_boundarymapper"
+    },
+    {
+      "name": "architecture-w-scalereviewer",
+      "agent": {
+        "name": "EXC-L4-Architecture-ScaleReviewer"
+      },
+      "prompt_template": "You are EXC-L4-Architecture-ScaleReviewer (Architecture team): do your part — RFCs, frozen contracts and ADRs. End with APPROVED or FAIL: reasons.\n\n{{architecture_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "architecture_scalereviewer"
+    },
+    {
+      "name": "architecture-w-debtkeeper",
+      "agent": {
+        "name": "EXC-L4-Architecture-DebtKeeper"
+      },
+      "prompt_template": "You are EXC-L4-Architecture-DebtKeeper (Architecture team): do your part — RFCs, frozen contracts and ADRs. End with APPROVED or FAIL: reasons.\n\n{{architecture_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "architecture_debtkeeper"
+    },
+    {
+      "name": "architecture-gather-0",
+      "agent": {
+        "name": "EXC-L3-Architecture-Lead"
+      },
+      "prompt_template": "unused",
+      "mode": "collect",
+      "timeout_secs": 120,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "architecture-bundle",
+      "agent": {
+        "name": "EXC-L3-Architecture-Lead"
+      },
+      "prompt_template": "You are EXC-L3-Architecture-Lead: bundle team outputs into one handoff packet with evidence checklist.\n\n{{input}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "architecture_handoff"
+    },
+    {
+      "name": "architecture-gate",
+      "agent": {
+        "name": "EXC-L5-Architecture-QA"
+      },
+      "prompt_template": "You are EXC-L5-Architecture-QA: verify against acceptance criteria + Prompt-Surgeon rewrite on fail. Reply APPROVED or FAIL: reasons.\n\n{{architecture_handoff}}",
+      "mode": {
+        "loop": {
+          "max_iterations": 3,
+          "until": "APPROVED"
+        }
+      },
+      "timeout_secs": 300,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "mgr-check-architecture",
+      "agent": {
+        "name": "EXC-L2-MgrBuild"
+      },
+      "prompt_template": "Manager checkpoint over the Architecture handoff. Reply APPROVED or FAIL: reasons.\n\n{{architecture_handoff}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "backend-brief",
+      "agent": {
+        "name": "EXC-L3-Backend-Lead"
+      },
+      "prompt_template": "You are EXC-L3-Backend-Lead: split this ticket for your team (server-side services strictly against frozen contracts). Reply BRIEFED with the slices.\n\nTicket:\n{{architecture_handoff}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "backend_brief"
+    },
+    {
+      "name": "backend-w-apibuildera",
+      "agent": {
+        "name": "EXC-L4-Backend-APIBuilderA"
+      },
+      "prompt_template": "You are EXC-L4-Backend-APIBuilderA (Backend team): do your part — server-side services strictly against frozen contracts. End with APPROVED or FAIL: reasons.\n\n{{backend_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "backend_apibuildera"
+    },
+    {
+      "name": "backend-w-apibuilderb",
+      "agent": {
+        "name": "EXC-L4-Backend-APIBuilderB"
+      },
+      "prompt_template": "You are EXC-L4-Backend-APIBuilderB (Backend team): do your part — server-side services strictly against frozen contracts. End with APPROVED or FAIL: reasons.\n\n{{backend_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "backend_apibuilderb"
+    },
+    {
+      "name": "backend-w-authkeeper",
+      "agent": {
+        "name": "EXC-L4-Backend-AuthKeeper"
+      },
+      "prompt_template": "You are EXC-L4-Backend-AuthKeeper (Backend team): do your part — server-side services strictly against frozen contracts. End with APPROVED or FAIL: reasons.\n\n{{backend_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "backend_authkeeper"
+    },
+    {
+      "name": "backend-w-queuerunner",
+      "agent": {
+        "name": "EXC-L4-Backend-QueueRunner"
+      },
+      "prompt_template": "You are EXC-L4-Backend-QueueRunner (Backend team): do your part — server-side services strictly against frozen contracts. End with APPROVED or FAIL: reasons.\n\n{{backend_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "backend_queuerunner"
+    },
+    {
+      "name": "backend-w-cachesmith",
+      "agent": {
+        "name": "EXC-L4-Backend-CacheSmith"
+      },
+      "prompt_template": "You are EXC-L4-Backend-CacheSmith (Backend team): do your part — server-side services strictly against frozen contracts. End with APPROVED or FAIL: reasons.\n\n{{backend_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "backend_cachesmith"
+    },
+    {
+      "name": "backend-w-migrationmaster",
+      "agent": {
+        "name": "EXC-L4-Backend-MigrationMaster"
+      },
+      "prompt_template": "You are EXC-L4-Backend-MigrationMaster (Backend team): do your part — server-side services strictly against frozen contracts. End with APPROVED or FAIL: reasons.\n\n{{backend_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "backend_migrationmaster"
+    },
+    {
+      "name": "backend-w-jobwatcher",
+      "agent": {
+        "name": "EXC-L4-Backend-JobWatcher"
+      },
+      "prompt_template": "You are EXC-L4-Backend-JobWatcher (Backend team): do your part — server-side services strictly against frozen contracts. End with APPROVED or FAIL: reasons.\n\n{{backend_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "backend_jobwatcher"
+    },
+    {
+      "name": "backend-w-validator",
+      "agent": {
+        "name": "EXC-L4-Backend-Validator"
+      },
+      "prompt_template": "You are EXC-L4-Backend-Validator (Backend team): do your part — server-side services strictly against frozen contracts. End with APPROVED or FAIL: reasons.\n\n{{backend_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "backend_validator"
+    },
+    {
+      "name": "backend-gather-0",
+      "agent": {
+        "name": "EXC-L3-Backend-Lead"
+      },
+      "prompt_template": "unused",
+      "mode": "collect",
+      "timeout_secs": 120,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "backend-w-endpointtestera",
+      "agent": {
+        "name": "EXC-L4-Backend-EndpointTesterA"
+      },
+      "prompt_template": "You are EXC-L4-Backend-EndpointTesterA (Backend team): do your part — server-side services strictly against frozen contracts. End with APPROVED or FAIL: reasons.\n\n{{backend_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "backend_endpointtestera"
+    },
+    {
+      "name": "backend-w-endpointtesterb",
+      "agent": {
+        "name": "EXC-L4-Backend-EndpointTesterB"
+      },
+      "prompt_template": "You are EXC-L4-Backend-EndpointTesterB (Backend team): do your part — server-side services strictly against frozen contracts. End with APPROVED or FAIL: reasons.\n\n{{backend_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "backend_endpointtesterb"
+    },
+    {
+      "name": "backend-w-perfspotter",
+      "agent": {
+        "name": "EXC-L4-Backend-PerfSpotter"
+      },
+      "prompt_template": "You are EXC-L4-Backend-PerfSpotter (Backend team): do your part — server-side services strictly against frozen contracts. End with APPROVED or FAIL: reasons.\n\n{{backend_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "backend_perfspotter"
+    },
+    {
+      "name": "backend-w-docscribe",
+      "agent": {
+        "name": "EXC-L4-Backend-DocScribe"
+      },
+      "prompt_template": "You are EXC-L4-Backend-DocScribe (Backend team): do your part — server-side services strictly against frozen contracts. End with APPROVED or FAIL: reasons.\n\n{{backend_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "backend_docscribe"
+    },
+    {
+      "name": "backend-w-rollbackplanner",
+      "agent": {
+        "name": "EXC-L4-Backend-RollbackPlanner"
+      },
+      "prompt_template": "You are EXC-L4-Backend-RollbackPlanner (Backend team): do your part — server-side services strictly against frozen contracts. End with APPROVED or FAIL: reasons.\n\n{{backend_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "backend_rollbackplanner"
+    },
+    {
+      "name": "backend-gather-1",
+      "agent": {
+        "name": "EXC-L3-Backend-Lead"
+      },
+      "prompt_template": "unused",
+      "mode": "collect",
+      "timeout_secs": 120,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "backend-bundle",
+      "agent": {
+        "name": "EXC-L3-Backend-Lead"
+      },
+      "prompt_template": "You are EXC-L3-Backend-Lead: bundle team outputs into one handoff packet with evidence checklist.\n\n{{input}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "backend_handoff"
+    },
+    {
+      "name": "backend-gate",
+      "agent": {
+        "name": "EXC-L5-Backend-QA"
+      },
+      "prompt_template": "You are EXC-L5-Backend-QA: verify against acceptance criteria + Prompt-Surgeon rewrite on fail. Reply APPROVED or FAIL: reasons.\n\n{{backend_handoff}}",
+      "mode": {
+        "loop": {
+          "max_iterations": 3,
+          "until": "APPROVED"
+        }
+      },
+      "timeout_secs": 300,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "frontend-brief",
+      "agent": {
+        "name": "EXC-L3-Frontend-Lead"
+      },
+      "prompt_template": "You are EXC-L3-Frontend-Lead: split this ticket for your team (web UI with screenshot evidence per ticket). Reply BRIEFED with the slices.\n\nTicket:\n{{backend_handoff}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "frontend_brief"
+    },
+    {
+      "name": "frontend-w-pagebuilder",
+      "agent": {
+        "name": "EXC-L4-Frontend-PageBuilder"
+      },
+      "prompt_template": "You are EXC-L4-Frontend-PageBuilder (Frontend team): do your part — web UI with screenshot evidence per ticket. End with APPROVED or FAIL: reasons.\n\n{{frontend_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "frontend_pagebuilder"
+    },
+    {
+      "name": "frontend-w-componentsmith",
+      "agent": {
+        "name": "EXC-L4-Frontend-ComponentSmith"
+      },
+      "prompt_template": "You are EXC-L4-Frontend-ComponentSmith (Frontend team): do your part — web UI with screenshot evidence per ticket. End with APPROVED or FAIL: reasons.\n\n{{frontend_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "frontend_componentsmith"
+    },
+    {
+      "name": "frontend-w-statekeeper",
+      "agent": {
+        "name": "EXC-L4-Frontend-StateKeeper"
+      },
+      "prompt_template": "You are EXC-L4-Frontend-StateKeeper (Frontend team): do your part — web UI with screenshot evidence per ticket. End with APPROVED or FAIL: reasons.\n\n{{frontend_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "frontend_statekeeper"
+    },
+    {
+      "name": "frontend-w-formvalidator",
+      "agent": {
+        "name": "EXC-L4-Frontend-FormValidator"
+      },
+      "prompt_template": "You are EXC-L4-Frontend-FormValidator (Frontend team): do your part — web UI with screenshot evidence per ticket. End with APPROVED or FAIL: reasons.\n\n{{frontend_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "frontend_formvalidator"
+    },
+    {
+      "name": "frontend-w-styleenforcer",
+      "agent": {
+        "name": "EXC-L4-Frontend-StyleEnforcer"
+      },
+      "prompt_template": "You are EXC-L4-Frontend-StyleEnforcer (Frontend team): do your part — web UI with screenshot evidence per ticket. End with APPROVED or FAIL: reasons.\n\n{{frontend_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "frontend_styleenforcer"
+    },
+    {
+      "name": "frontend-w-a11ychecker",
+      "agent": {
+        "name": "EXC-L4-Frontend-A11yChecker"
+      },
+      "prompt_template": "You are EXC-L4-Frontend-A11yChecker (Frontend team): do your part — web UI with screenshot evidence per ticket. End with APPROVED or FAIL: reasons.\n\n{{frontend_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "frontend_a11ychecker"
+    },
+    {
+      "name": "frontend-w-testwriter",
+      "agent": {
+        "name": "EXC-L4-Frontend-TestWriter"
+      },
+      "prompt_template": "You are EXC-L4-Frontend-TestWriter (Frontend team): do your part — web UI with screenshot evidence per ticket. End with APPROVED or FAIL: reasons.\n\n{{frontend_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "frontend_testwriter"
+    },
+    {
+      "name": "frontend-w-storyauthor",
+      "agent": {
+        "name": "EXC-L4-Frontend-StoryAuthor"
+      },
+      "prompt_template": "You are EXC-L4-Frontend-StoryAuthor (Frontend team): do your part — web UI with screenshot evidence per ticket. End with APPROVED or FAIL: reasons.\n\n{{frontend_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "frontend_storyauthor"
+    },
+    {
+      "name": "frontend-gather-0",
+      "agent": {
+        "name": "EXC-L3-Frontend-Lead"
+      },
+      "prompt_template": "unused",
+      "mode": "collect",
+      "timeout_secs": 120,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "frontend-w-perftrimmer",
+      "agent": {
+        "name": "EXC-L4-Frontend-PerfTrimmer"
+      },
+      "prompt_template": "You are EXC-L4-Frontend-PerfTrimmer (Frontend team): do your part — web UI with screenshot evidence per ticket. End with APPROVED or FAIL: reasons.\n\n{{frontend_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "frontend_perftrimmer"
+    },
+    {
+      "name": "frontend-w-errorhandler",
+      "agent": {
+        "name": "EXC-L4-Frontend-ErrorHandler"
+      },
+      "prompt_template": "You are EXC-L4-Frontend-ErrorHandler (Frontend team): do your part — web UI with screenshot evidence per ticket. End with APPROVED or FAIL: reasons.\n\n{{frontend_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "frontend_errorhandler"
+    },
+    {
+      "name": "frontend-gather-1",
+      "agent": {
+        "name": "EXC-L3-Frontend-Lead"
+      },
+      "prompt_template": "unused",
+      "mode": "collect",
+      "timeout_secs": 120,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "frontend-bundle",
+      "agent": {
+        "name": "EXC-L3-Frontend-Lead"
+      },
+      "prompt_template": "You are EXC-L3-Frontend-Lead: bundle team outputs into one handoff packet with evidence checklist.\n\n{{input}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "frontend_handoff"
+    },
+    {
+      "name": "frontend-gate",
+      "agent": {
+        "name": "EXC-L5-Frontend-QA"
+      },
+      "prompt_template": "You are EXC-L5-Frontend-QA: verify against acceptance criteria + Prompt-Surgeon rewrite on fail. Reply APPROVED or FAIL: reasons.\n\n{{frontend_handoff}}",
+      "mode": {
+        "loop": {
+          "max_iterations": 3,
+          "until": "APPROVED"
+        }
+      },
+      "timeout_secs": 300,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "mobile-brief",
+      "agent": {
+        "name": "EXC-L3-Mobile-Lead"
+      },
+      "prompt_template": "You are EXC-L3-Mobile-Lead: split this ticket for your team (mobile screens, sync, store builds). Reply BRIEFED with the slices.\n\nTicket:\n{{frontend_handoff}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "mobile_brief"
+    },
+    {
+      "name": "mobile-w-screenbuilder",
+      "agent": {
+        "name": "EXC-L4-Mobile-ScreenBuilder"
+      },
+      "prompt_template": "You are EXC-L4-Mobile-ScreenBuilder (Mobile team): do your part — mobile screens, sync, store builds. End with APPROVED or FAIL: reasons.\n\n{{mobile_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "mobile_screenbuilder"
+    },
+    {
+      "name": "mobile-w-navigator",
+      "agent": {
+        "name": "EXC-L4-Mobile-Navigator"
+      },
+      "prompt_template": "You are EXC-L4-Mobile-Navigator (Mobile team): do your part — mobile screens, sync, store builds. End with APPROVED or FAIL: reasons.\n\n{{mobile_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "mobile_navigator"
+    },
+    {
+      "name": "mobile-w-syncengineer",
+      "agent": {
+        "name": "EXC-L4-Mobile-SyncEngineer"
+      },
+      "prompt_template": "You are EXC-L4-Mobile-SyncEngineer (Mobile team): do your part — mobile screens, sync, store builds. End with APPROVED or FAIL: reasons.\n\n{{mobile_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "mobile_syncengineer"
+    },
+    {
+      "name": "mobile-w-pushhandler",
+      "agent": {
+        "name": "EXC-L4-Mobile-PushHandler"
+      },
+      "prompt_template": "You are EXC-L4-Mobile-PushHandler (Mobile team): do your part — mobile screens, sync, store builds. End with APPROVED or FAIL: reasons.\n\n{{mobile_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "mobile_pushhandler"
+    },
+    {
+      "name": "mobile-w-permissionclerk",
+      "agent": {
+        "name": "EXC-L4-Mobile-PermissionClerk"
+      },
+      "prompt_template": "You are EXC-L4-Mobile-PermissionClerk (Mobile team): do your part — mobile screens, sync, store builds. End with APPROVED or FAIL: reasons.\n\n{{mobile_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "mobile_permissionclerk"
+    },
+    {
+      "name": "mobile-w-storepacker",
+      "agent": {
+        "name": "EXC-L4-Mobile-StorePacker"
+      },
+      "prompt_template": "You are EXC-L4-Mobile-StorePacker (Mobile team): do your part — mobile screens, sync, store builds. End with APPROVED or FAIL: reasons.\n\n{{mobile_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "mobile_storepacker"
+    },
+    {
+      "name": "mobile-w-offlinetester",
+      "agent": {
+        "name": "EXC-L4-Mobile-OfflineTester"
+      },
+      "prompt_template": "You are EXC-L4-Mobile-OfflineTester (Mobile team): do your part — mobile screens, sync, store builds. End with APPROVED or FAIL: reasons.\n\n{{mobile_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "mobile_offlinetester"
+    },
+    {
+      "name": "mobile-w-crashguard",
+      "agent": {
+        "name": "EXC-L4-Mobile-CrashGuard"
+      },
+      "prompt_template": "You are EXC-L4-Mobile-CrashGuard (Mobile team): do your part — mobile screens, sync, store builds. End with APPROVED or FAIL: reasons.\n\n{{mobile_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "mobile_crashguard"
+    },
+    {
+      "name": "mobile-gather-0",
+      "agent": {
+        "name": "EXC-L3-Mobile-Lead"
+      },
+      "prompt_template": "unused",
+      "mode": "collect",
+      "timeout_secs": 120,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "mobile-bundle",
+      "agent": {
+        "name": "EXC-L3-Mobile-Lead"
+      },
+      "prompt_template": "You are EXC-L3-Mobile-Lead: bundle team outputs into one handoff packet with evidence checklist.\n\n{{input}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "mobile_handoff"
+    },
+    {
+      "name": "mobile-gate",
+      "agent": {
+        "name": "EXC-L5-Mobile-QA"
+      },
+      "prompt_template": "You are EXC-L5-Mobile-QA: verify against acceptance criteria + Prompt-Surgeon rewrite on fail. Reply APPROVED or FAIL: reasons.\n\n{{mobile_handoff}}",
+      "mode": {
+        "loop": {
+          "max_iterations": 3,
+          "until": "APPROVED"
+        }
+      },
+      "timeout_secs": 300,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "api-brief",
+      "agent": {
+        "name": "EXC-L3-API-Lead"
+      },
+      "prompt_template": "You are EXC-L3-API-Lead: split this ticket for your team (OAuth, webhooks, retry wrappers, contract tests). Reply BRIEFED with the slices.\n\nTicket:\n{{mobile_handoff}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "api_brief"
+    },
+    {
+      "name": "api-w-oauthclerk",
+      "agent": {
+        "name": "EXC-L4-API-OAuthClerk"
+      },
+      "prompt_template": "You are EXC-L4-API-OAuthClerk (API team): do your part — OAuth, webhooks, retry wrappers, contract tests. End with APPROVED or FAIL: reasons.\n\n{{api_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "api_oauthclerk"
+    },
+    {
+      "name": "api-w-webhookwatcher",
+      "agent": {
+        "name": "EXC-L4-API-WebhookWatcher"
+      },
+      "prompt_template": "You are EXC-L4-API-WebhookWatcher (API team): do your part — OAuth, webhooks, retry wrappers, contract tests. End with APPROVED or FAIL: reasons.\n\n{{api_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "api_webhookwatcher"
+    },
+    {
+      "name": "api-w-retrywrapper",
+      "agent": {
+        "name": "EXC-L4-API-RetryWrapper"
+      },
+      "prompt_template": "You are EXC-L4-API-RetryWrapper (API team): do your part — OAuth, webhooks, retry wrappers, contract tests. End with APPROVED or FAIL: reasons.\n\n{{api_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "api_retrywrapper"
+    },
+    {
+      "name": "api-w-sandboxtester",
+      "agent": {
+        "name": "EXC-L4-API-SandboxTester"
+      },
+      "prompt_template": "You are EXC-L4-API-SandboxTester (API team): do your part — OAuth, webhooks, retry wrappers, contract tests. End with APPROVED or FAIL: reasons.\n\n{{api_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "api_sandboxtester"
+    },
+    {
+      "name": "api-w-contractguard",
+      "agent": {
+        "name": "EXC-L4-API-ContractGuard"
+      },
+      "prompt_template": "You are EXC-L4-API-ContractGuard (API team): do your part — OAuth, webhooks, retry wrappers, contract tests. End with APPROVED or FAIL: reasons.\n\n{{api_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "api_contractguard"
+    },
+    {
+      "name": "api-w-docscribe",
+      "agent": {
+        "name": "EXC-L4-API-DocScribe"
+      },
+      "prompt_template": "You are EXC-L4-API-DocScribe (API team): do your part — OAuth, webhooks, retry wrappers, contract tests. End with APPROVED or FAIL: reasons.\n\n{{api_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "api_docscribe"
+    },
+    {
+      "name": "api-gather-0",
+      "agent": {
+        "name": "EXC-L3-API-Lead"
+      },
+      "prompt_template": "unused",
+      "mode": "collect",
+      "timeout_secs": 120,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "api-bundle",
+      "agent": {
+        "name": "EXC-L3-API-Lead"
+      },
+      "prompt_template": "You are EXC-L3-API-Lead: bundle team outputs into one handoff packet with evidence checklist.\n\n{{input}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "api_handoff"
+    },
+    {
+      "name": "api-gate",
+      "agent": {
+        "name": "EXC-L5-API-QA"
+      },
+      "prompt_template": "You are EXC-L5-API-QA: verify against acceptance criteria + Prompt-Surgeon rewrite on fail. Reply APPROVED or FAIL: reasons.\n\n{{api_handoff}}",
+      "mode": {
+        "loop": {
+          "max_iterations": 3,
+          "until": "APPROVED"
+        }
+      },
+      "timeout_secs": 300,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "data-brief",
+      "agent": {
+        "name": "EXC-L3-Data-Lead"
+      },
+      "prompt_template": "You are EXC-L3-Data-Lead: split this ticket for your team (ETL, quality checks, freshness SLAs). Reply BRIEFED with the slices.\n\nTicket:\n{{api_handoff}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "data_brief"
+    },
+    {
+      "name": "data-w-pipebuilder",
+      "agent": {
+        "name": "EXC-L4-Data-PipeBuilder"
+      },
+      "prompt_template": "You are EXC-L4-Data-PipeBuilder (Data team): do your part — ETL, quality checks, freshness SLAs. End with APPROVED or FAIL: reasons.\n\n{{data_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "data_pipebuilder"
+    },
+    {
+      "name": "data-w-qualitysentinel",
+      "agent": {
+        "name": "EXC-L4-Data-QualitySentinel"
+      },
+      "prompt_template": "You are EXC-L4-Data-QualitySentinel (Data team): do your part — ETL, quality checks, freshness SLAs. End with APPROVED or FAIL: reasons.\n\n{{data_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "data_qualitysentinel"
+    },
+    {
+      "name": "data-w-backfillrunner",
+      "agent": {
+        "name": "EXC-L4-Data-BackfillRunner"
+      },
+      "prompt_template": "You are EXC-L4-Data-BackfillRunner (Data team): do your part — ETL, quality checks, freshness SLAs. End with APPROVED or FAIL: reasons.\n\n{{data_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "data_backfillrunner"
+    },
+    {
+      "name": "data-w-schemaguard",
+      "agent": {
+        "name": "EXC-L4-Data-SchemaGuard"
+      },
+      "prompt_template": "You are EXC-L4-Data-SchemaGuard (Data team): do your part — ETL, quality checks, freshness SLAs. End with APPROVED or FAIL: reasons.\n\n{{data_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "data_schemaguard"
+    },
+    {
+      "name": "data-w-freshnesswatcher",
+      "agent": {
+        "name": "EXC-L4-Data-FreshnessWatcher"
+      },
+      "prompt_template": "You are EXC-L4-Data-FreshnessWatcher (Data team): do your part — ETL, quality checks, freshness SLAs. End with APPROVED or FAIL: reasons.\n\n{{data_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "data_freshnesswatcher"
+    },
+    {
+      "name": "data-w-costtracker",
+      "agent": {
+        "name": "EXC-L4-Data-CostTracker"
+      },
+      "prompt_template": "You are EXC-L4-Data-CostTracker (Data team): do your part — ETL, quality checks, freshness SLAs. End with APPROVED or FAIL: reasons.\n\n{{data_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "data_costtracker"
+    },
+    {
+      "name": "data-gather-0",
+      "agent": {
+        "name": "EXC-L3-Data-Lead"
+      },
+      "prompt_template": "unused",
+      "mode": "collect",
+      "timeout_secs": 120,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "data-bundle",
+      "agent": {
+        "name": "EXC-L3-Data-Lead"
+      },
+      "prompt_template": "You are EXC-L3-Data-Lead: bundle team outputs into one handoff packet with evidence checklist.\n\n{{input}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "data_handoff"
+    },
+    {
+      "name": "data-gate",
+      "agent": {
+        "name": "EXC-L5-Data-QA"
+      },
+      "prompt_template": "You are EXC-L5-Data-QA: verify against acceptance criteria + Prompt-Surgeon rewrite on fail. Reply APPROVED or FAIL: reasons.\n\n{{data_handoff}}",
+      "mode": {
+        "loop": {
+          "max_iterations": 3,
+          "until": "APPROVED"
+        }
+      },
+      "timeout_secs": 300,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "ml-brief",
+      "agent": {
+        "name": "EXC-L3-ML-Lead"
+      },
+      "prompt_template": "You are EXC-L3-ML-Lead: split this ticket for your team (features, RAG, evals, quality regression). Reply BRIEFED with the slices.\n\nTicket:\n{{data_handoff}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "ml_brief"
+    },
+    {
+      "name": "ml-w-featureminer",
+      "agent": {
+        "name": "EXC-L4-ML-FeatureMiner"
+      },
+      "prompt_template": "You are EXC-L4-ML-FeatureMiner (ML team): do your part — features, RAG, evals, quality regression. End with APPROVED or FAIL: reasons.\n\n{{ml_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "ml_featureminer"
+    },
+    {
+      "name": "ml-w-ragindexer",
+      "agent": {
+        "name": "EXC-L4-ML-RAGIndexer"
+      },
+      "prompt_template": "You are EXC-L4-ML-RAGIndexer (ML team): do your part — features, RAG, evals, quality regression. End with APPROVED or FAIL: reasons.\n\n{{ml_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "ml_ragindexer"
+    },
+    {
+      "name": "ml-w-evalrunner",
+      "agent": {
+        "name": "EXC-L4-ML-EvalRunner"
+      },
+      "prompt_template": "You are EXC-L4-ML-EvalRunner (ML team): do your part — features, RAG, evals, quality regression. End with APPROVED or FAIL: reasons.\n\n{{ml_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "ml_evalrunner"
+    },
+    {
+      "name": "ml-w-promptlibrarian",
+      "agent": {
+        "name": "EXC-L4-ML-PromptLibrarian"
+      },
+      "prompt_template": "You are EXC-L4-ML-PromptLibrarian (ML team): do your part — features, RAG, evals, quality regression. End with APPROVED or FAIL: reasons.\n\n{{ml_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "ml_promptlibrarian"
+    },
+    {
+      "name": "ml-w-regressionwatcher",
+      "agent": {
+        "name": "EXC-L4-ML-RegressionWatcher"
+      },
+      "prompt_template": "You are EXC-L4-ML-RegressionWatcher (ML team): do your part — features, RAG, evals, quality regression. End with APPROVED or FAIL: reasons.\n\n{{ml_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "ml_regressionwatcher"
+    },
+    {
+      "name": "ml-w-qualityscorer",
+      "agent": {
+        "name": "EXC-L4-ML-QualityScorer"
+      },
+      "prompt_template": "You are EXC-L4-ML-QualityScorer (ML team): do your part — features, RAG, evals, quality regression. End with APPROVED or FAIL: reasons.\n\n{{ml_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "ml_qualityscorer"
+    },
+    {
+      "name": "ml-w-driftdetector",
+      "agent": {
+        "name": "EXC-L4-ML-DriftDetector"
+      },
+      "prompt_template": "You are EXC-L4-ML-DriftDetector (ML team): do your part — features, RAG, evals, quality regression. End with APPROVED or FAIL: reasons.\n\n{{ml_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "ml_driftdetector"
+    },
+    {
+      "name": "ml-w-datasetcurator",
+      "agent": {
+        "name": "EXC-L4-ML-DatasetCurator"
+      },
+      "prompt_template": "You are EXC-L4-ML-DatasetCurator (ML team): do your part — features, RAG, evals, quality regression. End with APPROVED or FAIL: reasons.\n\n{{ml_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "ml_datasetcurator"
+    },
+    {
+      "name": "ml-gather-0",
+      "agent": {
+        "name": "EXC-L3-ML-Lead"
+      },
+      "prompt_template": "unused",
+      "mode": "collect",
+      "timeout_secs": 120,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "ml-bundle",
+      "agent": {
+        "name": "EXC-L3-ML-Lead"
+      },
+      "prompt_template": "You are EXC-L3-ML-Lead: bundle team outputs into one handoff packet with evidence checklist.\n\n{{input}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "ml_handoff"
+    },
+    {
+      "name": "ml-gate",
+      "agent": {
+        "name": "EXC-L5-ML-QA"
+      },
+      "prompt_template": "You are EXC-L5-ML-QA: verify against acceptance criteria + Prompt-Surgeon rewrite on fail. Reply APPROVED or FAIL: reasons.\n\n{{ml_handoff}}",
+      "mode": {
+        "loop": {
+          "max_iterations": 3,
+          "until": "APPROVED"
+        }
+      },
+      "timeout_secs": 300,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "mgr-check-ml",
+      "agent": {
+        "name": "EXC-L2-MgrResearch"
+      },
+      "prompt_template": "Manager checkpoint over the ML handoff. Reply APPROVED or FAIL: reasons.\n\n{{ml_handoff}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "design-brief",
+      "agent": {
+        "name": "EXC-L3-Design-Lead"
+      },
+      "prompt_template": "You are EXC-L3-Design-Lead: split this ticket for your team (design system and prototypes). Reply BRIEFED with the slices.\n\nTicket:\n{{ml_handoff}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "design_brief"
+    },
+    {
+      "name": "design-w-systemdesigner",
+      "agent": {
+        "name": "EXC-L4-Design-SystemDesigner"
+      },
+      "prompt_template": "You are EXC-L4-Design-SystemDesigner (Design team): do your part — design system and prototypes. End with APPROVED or FAIL: reasons.\n\n{{design_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "design_systemdesigner"
+    },
+    {
+      "name": "design-w-prototypemaker",
+      "agent": {
+        "name": "EXC-L4-Design-PrototypeMaker"
+      },
+      "prompt_template": "You are EXC-L4-Design-PrototypeMaker (Design team): do your part — design system and prototypes. End with APPROVED or FAIL: reasons.\n\n{{design_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "design_prototypemaker"
+    },
+    {
+      "name": "design-w-visualspecwriter",
+      "agent": {
+        "name": "EXC-L4-Design-VisualSpecWriter"
+      },
+      "prompt_template": "You are EXC-L4-Design-VisualSpecWriter (Design team): do your part — design system and prototypes. End with APPROVED or FAIL: reasons.\n\n{{design_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "design_visualspecwriter"
+    },
+    {
+      "name": "design-w-flowmapper",
+      "agent": {
+        "name": "EXC-L4-Design-FlowMapper"
+      },
+      "prompt_template": "You are EXC-L4-Design-FlowMapper (Design team): do your part — design system and prototypes. End with APPROVED or FAIL: reasons.\n\n{{design_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "design_flowmapper"
+    },
+    {
+      "name": "design-gather-0",
+      "agent": {
+        "name": "EXC-L3-Design-Lead"
+      },
+      "prompt_template": "unused",
+      "mode": "collect",
+      "timeout_secs": 120,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "design-bundle",
+      "agent": {
+        "name": "EXC-L3-Design-Lead"
+      },
+      "prompt_template": "You are EXC-L3-Design-Lead: bundle team outputs into one handoff packet with evidence checklist.\n\n{{input}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "design_handoff"
+    },
+    {
+      "name": "design-gate",
+      "agent": {
+        "name": "EXC-L5-Design-QA"
+      },
+      "prompt_template": "You are EXC-L5-Design-QA: verify against acceptance criteria + Prompt-Surgeon rewrite on fail. Reply APPROVED or FAIL: reasons.\n\n{{design_handoff}}",
+      "mode": {
+        "loop": {
+          "max_iterations": 3,
+          "until": "APPROVED"
+        }
+      },
+      "timeout_secs": 300,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "platform-brief",
+      "agent": {
+        "name": "EXC-L3-Platform-Lead"
+      },
+      "prompt_template": "You are EXC-L3-Platform-Lead: split this ticket for your team (shared libs, templates, scaffolding). Reply BRIEFED with the slices.\n\nTicket:\n{{design_handoff}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "platform_brief"
+    },
+    {
+      "name": "platform-w-libsmith",
+      "agent": {
+        "name": "EXC-L4-Platform-LibSmith"
+      },
+      "prompt_template": "You are EXC-L4-Platform-LibSmith (Platform team): do your part — shared libs, templates, scaffolding. End with APPROVED or FAIL: reasons.\n\n{{platform_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "platform_libsmith"
+    },
+    {
+      "name": "platform-w-templatemaker",
+      "agent": {
+        "name": "EXC-L4-Platform-TemplateMaker"
+      },
+      "prompt_template": "You are EXC-L4-Platform-TemplateMaker (Platform team): do your part — shared libs, templates, scaffolding. End with APPROVED or FAIL: reasons.\n\n{{platform_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "platform_templatemaker"
+    },
+    {
+      "name": "platform-w-scaffoldrunner",
+      "agent": {
+        "name": "EXC-L4-Platform-ScaffoldRunner"
+      },
+      "prompt_template": "You are EXC-L4-Platform-ScaffoldRunner (Platform team): do your part — shared libs, templates, scaffolding. End with APPROVED or FAIL: reasons.\n\n{{platform_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "platform_scaffoldrunner"
+    },
+    {
+      "name": "platform-w-dxhelper",
+      "agent": {
+        "name": "EXC-L4-Platform-DXHelper"
+      },
+      "prompt_template": "You are EXC-L4-Platform-DXHelper (Platform team): do your part — shared libs, templates, scaffolding. End with APPROVED or FAIL: reasons.\n\n{{platform_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "platform_dxhelper"
+    },
+    {
+      "name": "platform-gather-0",
+      "agent": {
+        "name": "EXC-L3-Platform-Lead"
+      },
+      "prompt_template": "unused",
+      "mode": "collect",
+      "timeout_secs": 120,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "platform-bundle",
+      "agent": {
+        "name": "EXC-L3-Platform-Lead"
+      },
+      "prompt_template": "You are EXC-L3-Platform-Lead: bundle team outputs into one handoff packet with evidence checklist.\n\n{{input}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "platform_handoff"
+    },
+    {
+      "name": "platform-gate",
+      "agent": {
+        "name": "EXC-L5-Platform-QA"
+      },
+      "prompt_template": "You are EXC-L5-Platform-QA: verify against acceptance criteria + Prompt-Surgeon rewrite on fail. Reply APPROVED or FAIL: reasons.\n\n{{platform_handoff}}",
+      "mode": {
+        "loop": {
+          "max_iterations": 3,
+          "until": "APPROVED"
+        }
+      },
+      "timeout_secs": 300,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "qaauto-brief",
+      "agent": {
+        "name": "EXC-L3-QAAuto-Lead"
+      },
+      "prompt_template": "You are EXC-L3-QAAuto-Lead: split this ticket for your team (E2E/API/load suites and coverage). Reply BRIEFED with the slices.\n\nTicket:\n{{platform_handoff}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "qaauto_brief"
+    },
+    {
+      "name": "qaauto-w-e2eauthor",
+      "agent": {
+        "name": "EXC-L4-QA-E2EAuthor"
+      },
+      "prompt_template": "You are EXC-L4-QA-E2EAuthor (QAAuto team): do your part — E2E/API/load suites and coverage. End with APPROVED or FAIL: reasons.\n\n{{qaauto_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "qaauto_e2eauthor"
+    },
+    {
+      "name": "qaauto-w-apitester",
+      "agent": {
+        "name": "EXC-L4-QA-APITester"
+      },
+      "prompt_template": "You are EXC-L4-QA-APITester (QAAuto team): do your part — E2E/API/load suites and coverage. End with APPROVED or FAIL: reasons.\n\n{{qaauto_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "qaauto_apitester"
+    },
+    {
+      "name": "qaauto-w-loadrunner",
+      "agent": {
+        "name": "EXC-L4-QA-LoadRunner"
+      },
+      "prompt_template": "You are EXC-L4-QA-LoadRunner (QAAuto team): do your part — E2E/API/load suites and coverage. End with APPROVED or FAIL: reasons.\n\n{{qaauto_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "qaauto_loadrunner"
+    },
+    {
+      "name": "qaauto-w-smokesentry",
+      "agent": {
+        "name": "EXC-L4-QA-SmokeSentry"
+      },
+      "prompt_template": "You are EXC-L4-QA-SmokeSentry (QAAuto team): do your part — E2E/API/load suites and coverage. End with APPROVED or FAIL: reasons.\n\n{{qaauto_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "qaauto_smokesentry"
+    },
+    {
+      "name": "qaauto-w-flakyhunter",
+      "agent": {
+        "name": "EXC-L4-QA-FlakyHunter"
+      },
+      "prompt_template": "You are EXC-L4-QA-FlakyHunter (QAAuto team): do your part — E2E/API/load suites and coverage. End with APPROVED or FAIL: reasons.\n\n{{qaauto_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "qaauto_flakyhunter"
+    },
+    {
+      "name": "qaauto-w-coveragereporter",
+      "agent": {
+        "name": "EXC-L4-QA-CoverageReporter"
+      },
+      "prompt_template": "You are EXC-L4-QA-CoverageReporter (QAAuto team): do your part — E2E/API/load suites and coverage. End with APPROVED or FAIL: reasons.\n\n{{qaauto_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "qaauto_coveragereporter"
+    },
+    {
+      "name": "qaauto-w-repromaker",
+      "agent": {
+        "name": "EXC-L4-QA-ReproMaker"
+      },
+      "prompt_template": "You are EXC-L4-QA-ReproMaker (QAAuto team): do your part — E2E/API/load suites and coverage. End with APPROVED or FAIL: reasons.\n\n{{qaauto_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "qaauto_repromaker"
+    },
+    {
+      "name": "qaauto-w-screenshotjudge",
+      "agent": {
+        "name": "EXC-L4-QA-ScreenshotJudge"
+      },
+      "prompt_template": "You are EXC-L4-QA-ScreenshotJudge (QAAuto team): do your part — E2E/API/load suites and coverage. End with APPROVED or FAIL: reasons.\n\n{{qaauto_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "qaauto_screenshotjudge"
+    },
+    {
+      "name": "qaauto-gather-0",
+      "agent": {
+        "name": "EXC-L3-QAAuto-Lead"
+      },
+      "prompt_template": "unused",
+      "mode": "collect",
+      "timeout_secs": 120,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "qaauto-w-dataseeder",
+      "agent": {
+        "name": "EXC-L4-QA-DataSeeder"
+      },
+      "prompt_template": "You are EXC-L4-QA-DataSeeder (QAAuto team): do your part — E2E/API/load suites and coverage. End with APPROVED or FAIL: reasons.\n\n{{qaauto_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "qaauto_dataseeder"
+    },
+    {
+      "name": "qaauto-w-reportpublisher",
+      "agent": {
+        "name": "EXC-L4-QA-ReportPublisher"
+      },
+      "prompt_template": "You are EXC-L4-QA-ReportPublisher (QAAuto team): do your part — E2E/API/load suites and coverage. End with APPROVED or FAIL: reasons.\n\n{{qaauto_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "qaauto_reportpublisher"
+    },
+    {
+      "name": "qaauto-gather-1",
+      "agent": {
+        "name": "EXC-L3-QAAuto-Lead"
+      },
+      "prompt_template": "unused",
+      "mode": "collect",
+      "timeout_secs": 120,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "qaauto-bundle",
+      "agent": {
+        "name": "EXC-L3-QAAuto-Lead"
+      },
+      "prompt_template": "You are EXC-L3-QAAuto-Lead: bundle team outputs into one handoff packet with evidence checklist.\n\n{{input}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "qaauto_handoff"
+    },
+    {
+      "name": "qaauto-gate",
+      "agent": {
+        "name": "EXC-L5-QAAuto-QA"
+      },
+      "prompt_template": "You are EXC-L5-QAAuto-QA: verify against acceptance criteria + Prompt-Surgeon rewrite on fail. Reply APPROVED or FAIL: reasons.\n\n{{qaauto_handoff}}",
+      "mode": {
+        "loop": {
+          "max_iterations": 3,
+          "until": "APPROVED"
+        }
+      },
+      "timeout_secs": 300,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "mgr-check-qaauto",
+      "agent": {
+        "name": "EXC-L2-MgrQuality"
+      },
+      "prompt_template": "Manager checkpoint over the QAAuto handoff. Reply APPROVED or FAIL: reasons.\n\n{{qaauto_handoff}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "security-brief",
+      "agent": {
+        "name": "EXC-L3-Security-Lead"
+      },
+      "prompt_template": "You are EXC-L3-Security-Lead: split this ticket for your team (scan triage; failures never waivable). Reply BRIEFED with the slices.\n\nTicket:\n{{qaauto_handoff}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "security_brief"
+    },
+    {
+      "name": "security-w-scantriager",
+      "agent": {
+        "name": "EXC-L4-Security-ScanTriager"
+      },
+      "prompt_template": "You are EXC-L4-Security-ScanTriager (Security team): do your part — scan triage; failures never waivable. End with APPROVED or FAIL: reasons.\n\n{{security_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "security_scantriager"
+    },
+    {
+      "name": "security-w-secretsniffer",
+      "agent": {
+        "name": "EXC-L4-Security-SecretSniffer"
+      },
+      "prompt_template": "You are EXC-L4-Security-SecretSniffer (Security team): do your part — scan triage; failures never waivable. End with APPROVED or FAIL: reasons.\n\n{{security_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "security_secretsniffer"
+    },
+    {
+      "name": "security-w-cveauditor",
+      "agent": {
+        "name": "EXC-L4-Security-CVEAuditor"
+      },
+      "prompt_template": "You are EXC-L4-Security-CVEAuditor (Security team): do your part — scan triage; failures never waivable. End with APPROVED or FAIL: reasons.\n\n{{security_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "security_cveauditor"
+    },
+    {
+      "name": "security-w-pentestprober",
+      "agent": {
+        "name": "EXC-L4-Security-PentestProber"
+      },
+      "prompt_template": "You are EXC-L4-Security-PentestProber (Security team): do your part — scan triage; failures never waivable. End with APPROVED or FAIL: reasons.\n\n{{security_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "security_pentestprober"
+    },
+    {
+      "name": "security-w-policychecker",
+      "agent": {
+        "name": "EXC-L4-Security-PolicyChecker"
+      },
+      "prompt_template": "You are EXC-L4-Security-PolicyChecker (Security team): do your part — scan triage; failures never waivable. End with APPROVED or FAIL: reasons.\n\n{{security_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "security_policychecker"
+    },
+    {
+      "name": "security-w-runbookwriter",
+      "agent": {
+        "name": "EXC-L4-Security-RunbookWriter"
+      },
+      "prompt_template": "You are EXC-L4-Security-RunbookWriter (Security team): do your part — scan triage; failures never waivable. End with APPROVED or FAIL: reasons.\n\n{{security_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "security_runbookwriter"
+    },
+    {
+      "name": "security-gather-0",
+      "agent": {
+        "name": "EXC-L3-Security-Lead"
+      },
+      "prompt_template": "unused",
+      "mode": "collect",
+      "timeout_secs": 120,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "security-bundle",
+      "agent": {
+        "name": "EXC-L3-Security-Lead"
+      },
+      "prompt_template": "You are EXC-L3-Security-Lead: bundle team outputs into one handoff packet with evidence checklist.\n\n{{input}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "security_handoff"
+    },
+    {
+      "name": "security-gate",
+      "agent": {
+        "name": "EXC-L5-Security-QA"
+      },
+      "prompt_template": "You are EXC-L5-Security-QA: verify against acceptance criteria + Prompt-Surgeon rewrite on fail. Reply APPROVED or FAIL: reasons.\n\n{{security_handoff}}",
+      "mode": {
+        "loop": {
+          "max_iterations": 3,
+          "until": "APPROVED"
+        }
+      },
+      "timeout_secs": 300,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "perf-brief",
+      "agent": {
+        "name": "EXC-L3-Perf-Lead"
+      },
+      "prompt_template": "You are EXC-L3-Perf-Lead: split this ticket for your team (benchmarks and P95 enforcement). Reply BRIEFED with the slices.\n\nTicket:\n{{security_handoff}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "perf_brief"
+    },
+    {
+      "name": "perf-w-benchrunner",
+      "agent": {
+        "name": "EXC-L4-Perf-BenchRunner"
+      },
+      "prompt_template": "You are EXC-L4-Perf-BenchRunner (Perf team): do your part — benchmarks and P95 enforcement. End with APPROVED or FAIL: reasons.\n\n{{perf_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "perf_benchrunner"
+    },
+    {
+      "name": "perf-w-p95watcher",
+      "agent": {
+        "name": "EXC-L4-Perf-P95Watcher"
+      },
+      "prompt_template": "You are EXC-L4-Perf-P95Watcher (Perf team): do your part — benchmarks and P95 enforcement. End with APPROVED or FAIL: reasons.\n\n{{perf_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "perf_p95watcher"
+    },
+    {
+      "name": "perf-w-profiler",
+      "agent": {
+        "name": "EXC-L4-Perf-Profiler"
+      },
+      "prompt_template": "You are EXC-L4-Perf-Profiler (Perf team): do your part — benchmarks and P95 enforcement. End with APPROVED or FAIL: reasons.\n\n{{perf_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "perf_profiler"
+    },
+    {
+      "name": "perf-w-soaktester",
+      "agent": {
+        "name": "EXC-L4-Perf-SoakTester"
+      },
+      "prompt_template": "You are EXC-L4-Perf-SoakTester (Perf team): do your part — benchmarks and P95 enforcement. End with APPROVED or FAIL: reasons.\n\n{{perf_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "perf_soaktester"
+    },
+    {
+      "name": "perf-gather-0",
+      "agent": {
+        "name": "EXC-L3-Perf-Lead"
+      },
+      "prompt_template": "unused",
+      "mode": "collect",
+      "timeout_secs": 120,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "perf-bundle",
+      "agent": {
+        "name": "EXC-L3-Perf-Lead"
+      },
+      "prompt_template": "You are EXC-L3-Perf-Lead: bundle team outputs into one handoff packet with evidence checklist.\n\n{{input}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "perf_handoff"
+    },
+    {
+      "name": "perf-gate",
+      "agent": {
+        "name": "EXC-L5-Perf-QA"
+      },
+      "prompt_template": "You are EXC-L5-Perf-QA: verify against acceptance criteria + Prompt-Surgeon rewrite on fail. Reply APPROVED or FAIL: reasons.\n\n{{perf_handoff}}",
+      "mode": {
+        "loop": {
+          "max_iterations": 3,
+          "until": "APPROVED"
+        }
+      },
+      "timeout_secs": 300,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "a11y-brief",
+      "agent": {
+        "name": "EXC-L3-A11y-Lead"
+      },
+      "prompt_template": "You are EXC-L3-A11y-Lead: split this ticket for your team (accessibility audits and policy checks). Reply BRIEFED with the slices.\n\nTicket:\n{{perf_handoff}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "a11y_brief"
+    },
+    {
+      "name": "a11y-w-a11yauditor",
+      "agent": {
+        "name": "EXC-L4-A11y-A11yAuditor"
+      },
+      "prompt_template": "You are EXC-L4-A11y-A11yAuditor (A11y team): do your part — accessibility audits and policy checks. End with APPROVED or FAIL: reasons.\n\n{{a11y_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "a11y_a11yauditor"
+    },
+    {
+      "name": "a11y-w-policychecker",
+      "agent": {
+        "name": "EXC-L4-A11y-PolicyChecker"
+      },
+      "prompt_template": "You are EXC-L4-A11y-PolicyChecker (A11y team): do your part — accessibility audits and policy checks. End with APPROVED or FAIL: reasons.\n\n{{a11y_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "a11y_policychecker"
+    },
+    {
+      "name": "a11y-gather-0",
+      "agent": {
+        "name": "EXC-L3-A11y-Lead"
+      },
+      "prompt_template": "unused",
+      "mode": "collect",
+      "timeout_secs": 120,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "a11y-bundle",
+      "agent": {
+        "name": "EXC-L3-A11y-Lead"
+      },
+      "prompt_template": "You are EXC-L3-A11y-Lead: bundle team outputs into one handoff packet with evidence checklist.\n\n{{input}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "a11y_handoff"
+    },
+    {
+      "name": "a11y-gate",
+      "agent": {
+        "name": "EXC-L5-A11y-QA"
+      },
+      "prompt_template": "You are EXC-L5-A11y-QA: verify against acceptance criteria + Prompt-Surgeon rewrite on fail. Reply APPROVED or FAIL: reasons.\n\n{{a11y_handoff}}",
+      "mode": {
+        "loop": {
+          "max_iterations": 3,
+          "until": "APPROVED"
+        }
+      },
+      "timeout_secs": 300,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "devops-brief",
+      "agent": {
+        "name": "EXC-L3-DevOps-Lead"
+      },
+      "prompt_template": "You are EXC-L3-DevOps-Lead: split this ticket for your team (pipelines, env parity, artifacts, IaC). Reply BRIEFED with the slices.\n\nTicket:\n{{a11y_handoff}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "devops_brief"
+    },
+    {
+      "name": "devops-w-pipewriter",
+      "agent": {
+        "name": "EXC-L4-DevOps-PipeWriter"
+      },
+      "prompt_template": "You are EXC-L4-DevOps-PipeWriter (DevOps team): do your part — pipelines, env parity, artifacts, IaC. End with APPROVED or FAIL: reasons.\n\n{{devops_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "devops_pipewriter"
+    },
+    {
+      "name": "devops-w-envparityguard",
+      "agent": {
+        "name": "EXC-L4-DevOps-EnvParityGuard"
+      },
+      "prompt_template": "You are EXC-L4-DevOps-EnvParityGuard (DevOps team): do your part — pipelines, env parity, artifacts, IaC. End with APPROVED or FAIL: reasons.\n\n{{devops_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "devops_envparityguard"
+    },
+    {
+      "name": "devops-w-artifactkeeper",
+      "agent": {
+        "name": "EXC-L4-DevOps-ArtifactKeeper"
+      },
+      "prompt_template": "You are EXC-L4-DevOps-ArtifactKeeper (DevOps team): do your part — pipelines, env parity, artifacts, IaC. End with APPROVED or FAIL: reasons.\n\n{{devops_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "devops_artifactkeeper"
+    },
+    {
+      "name": "devops-w-rollbacksmith",
+      "agent": {
+        "name": "EXC-L4-DevOps-RollbackSmith"
+      },
+      "prompt_template": "You are EXC-L4-DevOps-RollbackSmith (DevOps team): do your part — pipelines, env parity, artifacts, IaC. End with APPROVED or FAIL: reasons.\n\n{{devops_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "devops_rollbacksmith"
+    },
+    {
+      "name": "devops-w-iacreviewer",
+      "agent": {
+        "name": "EXC-L4-DevOps-IaCReviewer"
+      },
+      "prompt_template": "You are EXC-L4-DevOps-IaCReviewer (DevOps team): do your part — pipelines, env parity, artifacts, IaC. End with APPROVED or FAIL: reasons.\n\n{{devops_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "devops_iacreviewer"
+    },
+    {
+      "name": "devops-w-logwatcher",
+      "agent": {
+        "name": "EXC-L4-DevOps-LogWatcher"
+      },
+      "prompt_template": "You are EXC-L4-DevOps-LogWatcher (DevOps team): do your part — pipelines, env parity, artifacts, IaC. End with APPROVED or FAIL: reasons.\n\n{{devops_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "devops_logwatcher"
+    },
+    {
+      "name": "devops-w-secretrotator",
+      "agent": {
+        "name": "EXC-L4-DevOps-SecretRotator"
+      },
+      "prompt_template": "You are EXC-L4-DevOps-SecretRotator (DevOps team): do your part — pipelines, env parity, artifacts, IaC. End with APPROVED or FAIL: reasons.\n\n{{devops_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "devops_secretrotator"
+    },
+    {
+      "name": "devops-w-deployannouncer",
+      "agent": {
+        "name": "EXC-L4-DevOps-DeployAnnouncer"
+      },
+      "prompt_template": "You are EXC-L4-DevOps-DeployAnnouncer (DevOps team): do your part — pipelines, env parity, artifacts, IaC. End with APPROVED or FAIL: reasons.\n\n{{devops_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "devops_deployannouncer"
+    },
+    {
+      "name": "devops-gather-0",
+      "agent": {
+        "name": "EXC-L3-DevOps-Lead"
+      },
+      "prompt_template": "unused",
+      "mode": "collect",
+      "timeout_secs": 120,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "devops-bundle",
+      "agent": {
+        "name": "EXC-L3-DevOps-Lead"
+      },
+      "prompt_template": "You are EXC-L3-DevOps-Lead: bundle team outputs into one handoff packet with evidence checklist.\n\n{{input}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "devops_handoff"
+    },
+    {
+      "name": "devops-gate",
+      "agent": {
+        "name": "EXC-L5-DevOps-QA"
+      },
+      "prompt_template": "You are EXC-L5-DevOps-QA: verify against acceptance criteria + Prompt-Surgeon rewrite on fail. Reply APPROVED or FAIL: reasons.\n\n{{devops_handoff}}",
+      "mode": {
+        "loop": {
+          "max_iterations": 3,
+          "until": "APPROVED"
+        }
+      },
+      "timeout_secs": 300,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "sre-brief",
+      "agent": {
+        "name": "EXC-L3-SRE-Lead"
+      },
+      "prompt_template": "You are EXC-L3-SRE-Lead: split this ticket for your team (dashboards, alerts, Gate E health). Reply BRIEFED with the slices.\n\nTicket:\n{{devops_handoff}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "sre_brief"
+    },
+    {
+      "name": "sre-w-dashboardbuilder",
+      "agent": {
+        "name": "EXC-L4-SRE-DashboardBuilder"
+      },
+      "prompt_template": "You are EXC-L4-SRE-DashboardBuilder (SRE team): do your part — dashboards, alerts, Gate E health. End with APPROVED or FAIL: reasons.\n\n{{sre_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "sre_dashboardbuilder"
+    },
+    {
+      "name": "sre-w-alerttuner",
+      "agent": {
+        "name": "EXC-L4-SRE-AlertTuner"
+      },
+      "prompt_template": "You are EXC-L4-SRE-AlertTuner (SRE team): do your part — dashboards, alerts, Gate E health. End with APPROVED or FAIL: reasons.\n\n{{sre_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "sre_alerttuner"
+    },
+    {
+      "name": "sre-w-incidentresponder",
+      "agent": {
+        "name": "EXC-L4-SRE-IncidentResponder"
+      },
+      "prompt_template": "You are EXC-L4-SRE-IncidentResponder (SRE team): do your part — dashboards, alerts, Gate E health. End with APPROVED or FAIL: reasons.\n\n{{sre_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "sre_incidentresponder"
+    },
+    {
+      "name": "sre-w-slotracker",
+      "agent": {
+        "name": "EXC-L4-SRE-SLOTracker"
+      },
+      "prompt_template": "You are EXC-L4-SRE-SLOTracker (SRE team): do your part — dashboards, alerts, Gate E health. End with APPROVED or FAIL: reasons.\n\n{{sre_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "sre_slotracker"
+    },
+    {
+      "name": "sre-w-postmortemscribe",
+      "agent": {
+        "name": "EXC-L4-SRE-PostmortemScribe"
+      },
+      "prompt_template": "You are EXC-L4-SRE-PostmortemScribe (SRE team): do your part — dashboards, alerts, Gate E health. End with APPROVED or FAIL: reasons.\n\n{{sre_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "sre_postmortemscribe"
+    },
+    {
+      "name": "sre-w-capacityplanner",
+      "agent": {
+        "name": "EXC-L4-SRE-CapacityPlanner"
+      },
+      "prompt_template": "You are EXC-L4-SRE-CapacityPlanner (SRE team): do your part — dashboards, alerts, Gate E health. End with APPROVED or FAIL: reasons.\n\n{{sre_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "sre_capacityplanner"
+    },
+    {
+      "name": "sre-gather-0",
+      "agent": {
+        "name": "EXC-L3-SRE-Lead"
+      },
+      "prompt_template": "unused",
+      "mode": "collect",
+      "timeout_secs": 120,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "sre-bundle",
+      "agent": {
+        "name": "EXC-L3-SRE-Lead"
+      },
+      "prompt_template": "You are EXC-L3-SRE-Lead: bundle team outputs into one handoff packet with evidence checklist.\n\n{{input}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "sre_handoff"
+    },
+    {
+      "name": "sre-gate",
+      "agent": {
+        "name": "EXC-L5-SRE-QA"
+      },
+      "prompt_template": "You are EXC-L5-SRE-QA: verify against acceptance criteria + Prompt-Surgeon rewrite on fail. Reply APPROVED or FAIL: reasons.\n\n{{sre_handoff}}",
+      "mode": {
+        "loop": {
+          "max_iterations": 3,
+          "until": "APPROVED"
+        }
+      },
+      "timeout_secs": 300,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "mgr-check-sre",
+      "agent": {
+        "name": "EXC-L2-MgrQuality"
+      },
+      "prompt_template": "Manager checkpoint over the SRE handoff. Reply APPROVED or FAIL: reasons.\n\n{{sre_handoff}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "db-brief",
+      "agent": {
+        "name": "EXC-L3-DB-Lead"
+      },
+      "prompt_template": "You are EXC-L3-DB-Lead: split this ticket for your team (backups, migration safety, slow queries). Reply BRIEFED with the slices.\n\nTicket:\n{{sre_handoff}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "db_brief"
+    },
+    {
+      "name": "db-w-backupdriller",
+      "agent": {
+        "name": "EXC-L4-DB-BackupDriller"
+      },
+      "prompt_template": "You are EXC-L4-DB-BackupDriller (DB team): do your part — backups, migration safety, slow queries. End with APPROVED or FAIL: reasons.\n\n{{db_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "db_backupdriller"
+    },
+    {
+      "name": "db-w-migrationguard",
+      "agent": {
+        "name": "EXC-L4-DB-MigrationGuard"
+      },
+      "prompt_template": "You are EXC-L4-DB-MigrationGuard (DB team): do your part — backups, migration safety, slow queries. End with APPROVED or FAIL: reasons.\n\n{{db_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "db_migrationguard"
+    },
+    {
+      "name": "db-w-slowqueryhunter",
+      "agent": {
+        "name": "EXC-L4-DB-SlowQueryHunter"
+      },
+      "prompt_template": "You are EXC-L4-DB-SlowQueryHunter (DB team): do your part — backups, migration safety, slow queries. End with APPROVED or FAIL: reasons.\n\n{{db_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "db_slowqueryhunter"
+    },
+    {
+      "name": "db-w-replicawatcher",
+      "agent": {
+        "name": "EXC-L4-DB-ReplicaWatcher"
+      },
+      "prompt_template": "You are EXC-L4-DB-ReplicaWatcher (DB team): do your part — backups, migration safety, slow queries. End with APPROVED or FAIL: reasons.\n\n{{db_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "db_replicawatcher"
+    },
+    {
+      "name": "db-gather-0",
+      "agent": {
+        "name": "EXC-L3-DB-Lead"
+      },
+      "prompt_template": "unused",
+      "mode": "collect",
+      "timeout_secs": 120,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "db-bundle",
+      "agent": {
+        "name": "EXC-L3-DB-Lead"
+      },
+      "prompt_template": "You are EXC-L3-DB-Lead: bundle team outputs into one handoff packet with evidence checklist.\n\n{{input}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "db_handoff"
+    },
+    {
+      "name": "db-gate",
+      "agent": {
+        "name": "EXC-L5-DB-QA"
+      },
+      "prompt_template": "You are EXC-L5-DB-QA: verify against acceptance criteria + Prompt-Surgeon rewrite on fail. Reply APPROVED or FAIL: reasons.\n\n{{db_handoff}}",
+      "mode": {
+        "loop": {
+          "max_iterations": 3,
+          "until": "APPROVED"
+        }
+      },
+      "timeout_secs": 300,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "release-brief",
+      "agent": {
+        "name": "EXC-L3-Release-Lead"
+      },
+      "prompt_template": "You are EXC-L3-Release-Lead: split this ticket for your team (versions, flags, staged rollouts). Reply BRIEFED with the slices.\n\nTicket:\n{{db_handoff}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "release_brief"
+    },
+    {
+      "name": "release-w-versiontagger",
+      "agent": {
+        "name": "EXC-L4-Release-VersionTagger"
+      },
+      "prompt_template": "You are EXC-L4-Release-VersionTagger (Release team): do your part — versions, flags, staged rollouts. End with APPROVED or FAIL: reasons.\n\n{{release_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "release_versiontagger"
+    },
+    {
+      "name": "release-w-flagcontroller",
+      "agent": {
+        "name": "EXC-L4-Release-FlagController"
+      },
+      "prompt_template": "You are EXC-L4-Release-FlagController (Release team): do your part — versions, flags, staged rollouts. End with APPROVED or FAIL: reasons.\n\n{{release_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "release_flagcontroller"
+    },
+    {
+      "name": "release-w-noteswriter",
+      "agent": {
+        "name": "EXC-L4-Release-NotesWriter"
+      },
+      "prompt_template": "You are EXC-L4-Release-NotesWriter (Release team): do your part — versions, flags, staged rollouts. End with APPROVED or FAIL: reasons.\n\n{{release_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "release_noteswriter"
+    },
+    {
+      "name": "release-gather-0",
+      "agent": {
+        "name": "EXC-L3-Release-Lead"
+      },
+      "prompt_template": "unused",
+      "mode": "collect",
+      "timeout_secs": 120,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "release-bundle",
+      "agent": {
+        "name": "EXC-L3-Release-Lead"
+      },
+      "prompt_template": "You are EXC-L3-Release-Lead: bundle team outputs into one handoff packet with evidence checklist.\n\n{{input}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "release_handoff"
+    },
+    {
+      "name": "release-gate",
+      "agent": {
+        "name": "EXC-L5-Release-QA"
+      },
+      "prompt_template": "You are EXC-L5-Release-QA: verify against acceptance criteria + Prompt-Surgeon rewrite on fail. Reply APPROVED or FAIL: reasons.\n\n{{release_handoff}}",
+      "mode": {
+        "loop": {
+          "max_iterations": 3,
+          "until": "APPROVED"
+        }
+      },
+      "timeout_secs": 300,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "docs-brief",
+      "agent": {
+        "name": "EXC-L3-Docs-Lead"
+      },
+      "prompt_template": "You are EXC-L3-Docs-Lead: split this ticket for your team (API refs and runbooks; stale docs block release). Reply BRIEFED with the slices.\n\nTicket:\n{{release_handoff}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "docs_brief"
+    },
+    {
+      "name": "docs-w-apidocwriter",
+      "agent": {
+        "name": "EXC-L4-Docs-APIDocWriter"
+      },
+      "prompt_template": "You are EXC-L4-Docs-APIDocWriter (Docs team): do your part — API refs and runbooks; stale docs block release. End with APPROVED or FAIL: reasons.\n\n{{docs_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "docs_apidocwriter"
+    },
+    {
+      "name": "docs-w-runbookscribe",
+      "agent": {
+        "name": "EXC-L4-Docs-RunbookScribe"
+      },
+      "prompt_template": "You are EXC-L4-Docs-RunbookScribe (Docs team): do your part — API refs and runbooks; stale docs block release. End with APPROVED or FAIL: reasons.\n\n{{docs_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "docs_runbookscribe"
+    },
+    {
+      "name": "docs-w-diagrammaker",
+      "agent": {
+        "name": "EXC-L4-Docs-DiagramMaker"
+      },
+      "prompt_template": "You are EXC-L4-Docs-DiagramMaker (Docs team): do your part — API refs and runbooks; stale docs block release. End with APPROVED or FAIL: reasons.\n\n{{docs_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "docs_diagrammaker"
+    },
+    {
+      "name": "docs-w-freshnesschecker",
+      "agent": {
+        "name": "EXC-L4-Docs-FreshnessChecker"
+      },
+      "prompt_template": "You are EXC-L4-Docs-FreshnessChecker (Docs team): do your part — API refs and runbooks; stale docs block release. End with APPROVED or FAIL: reasons.\n\n{{docs_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "docs_freshnesschecker"
+    },
+    {
+      "name": "docs-gather-0",
+      "agent": {
+        "name": "EXC-L3-Docs-Lead"
+      },
+      "prompt_template": "unused",
+      "mode": "collect",
+      "timeout_secs": 120,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "docs-bundle",
+      "agent": {
+        "name": "EXC-L3-Docs-Lead"
+      },
+      "prompt_template": "You are EXC-L3-Docs-Lead: bundle team outputs into one handoff packet with evidence checklist.\n\n{{input}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "docs_handoff"
+    },
+    {
+      "name": "docs-gate",
+      "agent": {
+        "name": "EXC-L5-Docs-QA"
+      },
+      "prompt_template": "You are EXC-L5-Docs-QA: verify against acceptance criteria + Prompt-Surgeon rewrite on fail. Reply APPROVED or FAIL: reasons.\n\n{{docs_handoff}}",
+      "mode": {
+        "loop": {
+          "max_iterations": 3,
+          "until": "APPROVED"
+        }
+      },
+      "timeout_secs": 300,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "finops-brief",
+      "agent": {
+        "name": "EXC-L3-FinOps-Lead"
+      },
+      "prompt_template": "You are EXC-L3-FinOps-Lead: split this ticket for your team (spend budgets and quota alerts). Reply BRIEFED with the slices.\n\nTicket:\n{{docs_handoff}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "finops_brief"
+    },
+    {
+      "name": "finops-w-spendtracker",
+      "agent": {
+        "name": "EXC-L4-FinOps-SpendTracker"
+      },
+      "prompt_template": "You are EXC-L4-FinOps-SpendTracker (FinOps team): do your part — spend budgets and quota alerts. End with APPROVED or FAIL: reasons.\n\n{{finops_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "finops_spendtracker"
+    },
+    {
+      "name": "finops-w-quotaalarmer",
+      "agent": {
+        "name": "EXC-L4-FinOps-QuotaAlarmer"
+      },
+      "prompt_template": "You are EXC-L4-FinOps-QuotaAlarmer (FinOps team): do your part — spend budgets and quota alerts. End with APPROVED or FAIL: reasons.\n\n{{finops_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "finops_quotaalarmer"
+    },
+    {
+      "name": "finops-gather-0",
+      "agent": {
+        "name": "EXC-L3-FinOps-Lead"
+      },
+      "prompt_template": "unused",
+      "mode": "collect",
+      "timeout_secs": 120,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "finops-bundle",
+      "agent": {
+        "name": "EXC-L3-FinOps-Lead"
+      },
+      "prompt_template": "You are EXC-L3-FinOps-Lead: bundle team outputs into one handoff packet with evidence checklist.\n\n{{input}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "finops_handoff"
+    },
+    {
+      "name": "finops-gate",
+      "agent": {
+        "name": "EXC-L5-FinOps-QA"
+      },
+      "prompt_template": "You are EXC-L5-FinOps-QA: verify against acceptance criteria + Prompt-Surgeon rewrite on fail. Reply APPROVED or FAIL: reasons.\n\n{{finops_handoff}}",
+      "mode": {
+        "loop": {
+          "max_iterations": 3,
+          "until": "APPROVED"
+        }
+      },
+      "timeout_secs": 300,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "support-brief",
+      "agent": {
+        "name": "EXC-L3-Support-Lead"
+      },
+      "prompt_template": "You are EXC-L3-Support-Lead: split this ticket for your team (ticket triage, repro, escalation, KB). Reply BRIEFED with the slices.\n\nTicket:\n{{finops_handoff}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "support_brief"
+    },
+    {
+      "name": "support-w-ticketclusterer",
+      "agent": {
+        "name": "EXC-L4-Support-TicketClusterer"
+      },
+      "prompt_template": "You are EXC-L4-Support-TicketClusterer (Support team): do your part — ticket triage, repro, escalation, KB. End with APPROVED or FAIL: reasons.\n\n{{support_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "support_ticketclusterer"
+    },
+    {
+      "name": "support-w-repromaker",
+      "agent": {
+        "name": "EXC-L4-Support-ReproMaker"
+      },
+      "prompt_template": "You are EXC-L4-Support-ReproMaker (Support team): do your part — ticket triage, repro, escalation, KB. End with APPROVED or FAIL: reasons.\n\n{{support_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "support_repromaker"
+    },
+    {
+      "name": "support-w-severitylabeler",
+      "agent": {
+        "name": "EXC-L4-Support-SeverityLabeler"
+      },
+      "prompt_template": "You are EXC-L4-Support-SeverityLabeler (Support team): do your part — ticket triage, repro, escalation, KB. End with APPROVED or FAIL: reasons.\n\n{{support_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "support_severitylabeler"
+    },
+    {
+      "name": "support-w-workarounddrafter",
+      "agent": {
+        "name": "EXC-L4-Support-WorkaroundDrafter"
+      },
+      "prompt_template": "You are EXC-L4-Support-WorkaroundDrafter (Support team): do your part — ticket triage, repro, escalation, KB. End with APPROVED or FAIL: reasons.\n\n{{support_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "support_workarounddrafter"
+    },
+    {
+      "name": "support-w-escalationclerk",
+      "agent": {
+        "name": "EXC-L4-Support-EscalationClerk"
+      },
+      "prompt_template": "You are EXC-L4-Support-EscalationClerk (Support team): do your part — ticket triage, repro, escalation, KB. End with APPROVED or FAIL: reasons.\n\n{{support_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "support_escalationclerk"
+    },
+    {
+      "name": "support-w-kbupdater",
+      "agent": {
+        "name": "EXC-L4-Support-KBUpdater"
+      },
+      "prompt_template": "You are EXC-L4-Support-KBUpdater (Support team): do your part — ticket triage, repro, escalation, KB. End with APPROVED or FAIL: reasons.\n\n{{support_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "support_kbupdater"
+    },
+    {
+      "name": "support-gather-0",
+      "agent": {
+        "name": "EXC-L3-Support-Lead"
+      },
+      "prompt_template": "unused",
+      "mode": "collect",
+      "timeout_secs": 120,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "support-bundle",
+      "agent": {
+        "name": "EXC-L3-Support-Lead"
+      },
+      "prompt_template": "You are EXC-L3-Support-Lead: bundle team outputs into one handoff packet with evidence checklist.\n\n{{input}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "support_handoff"
+    },
+    {
+      "name": "support-gate",
+      "agent": {
+        "name": "EXC-L5-Support-QA"
+      },
+      "prompt_template": "You are EXC-L5-Support-QA: verify against acceptance criteria + Prompt-Surgeon rewrite on fail. Reply APPROVED or FAIL: reasons.\n\n{{support_handoff}}",
+      "mode": {
+        "loop": {
+          "max_iterations": 3,
+          "until": "APPROVED"
+        }
+      },
+      "timeout_secs": 300,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "analytics-brief",
+      "agent": {
+        "name": "EXC-L3-Analytics-Lead"
+      },
+      "prompt_template": "You are EXC-L3-Analytics-Lead: split this ticket for your team (funnels, experiments, learnings). Reply BRIEFED with the slices.\n\nTicket:\n{{support_handoff}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "analytics_brief"
+    },
+    {
+      "name": "analytics-w-funneltracker",
+      "agent": {
+        "name": "EXC-L4-Analytics-FunnelTracker"
+      },
+      "prompt_template": "You are EXC-L4-Analytics-FunnelTracker (Analytics team): do your part — funnels, experiments, learnings. End with APPROVED or FAIL: reasons.\n\n{{analytics_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "analytics_funneltracker"
+    },
+    {
+      "name": "analytics-w-experimentrunner",
+      "agent": {
+        "name": "EXC-L4-Analytics-ExperimentRunner"
+      },
+      "prompt_template": "You are EXC-L4-Analytics-ExperimentRunner (Analytics team): do your part — funnels, experiments, learnings. End with APPROVED or FAIL: reasons.\n\n{{analytics_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "analytics_experimentrunner"
+    },
+    {
+      "name": "analytics-w-metricreporter",
+      "agent": {
+        "name": "EXC-L4-Analytics-MetricReporter"
+      },
+      "prompt_template": "You are EXC-L4-Analytics-MetricReporter (Analytics team): do your part — funnels, experiments, learnings. End with APPROVED or FAIL: reasons.\n\n{{analytics_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "analytics_metricreporter"
+    },
+    {
+      "name": "analytics-w-insightscribe",
+      "agent": {
+        "name": "EXC-L4-Analytics-InsightScribe"
+      },
+      "prompt_template": "You are EXC-L4-Analytics-InsightScribe (Analytics team): do your part — funnels, experiments, learnings. End with APPROVED or FAIL: reasons.\n\n{{analytics_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "analytics_insightscribe"
+    },
+    {
+      "name": "analytics-gather-0",
+      "agent": {
+        "name": "EXC-L3-Analytics-Lead"
+      },
+      "prompt_template": "unused",
+      "mode": "collect",
+      "timeout_secs": 120,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "analytics-bundle",
+      "agent": {
+        "name": "EXC-L3-Analytics-Lead"
+      },
+      "prompt_template": "You are EXC-L3-Analytics-Lead: bundle team outputs into one handoff packet with evidence checklist.\n\n{{input}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "analytics_handoff"
+    },
+    {
+      "name": "analytics-gate",
+      "agent": {
+        "name": "EXC-L5-Analytics-QA"
+      },
+      "prompt_template": "You are EXC-L5-Analytics-QA: verify against acceptance criteria + Prompt-Surgeon rewrite on fail. Reply APPROVED or FAIL: reasons.\n\n{{analytics_handoff}}",
+      "mode": {
+        "loop": {
+          "max_iterations": 3,
+          "until": "APPROVED"
+        }
+      },
+      "timeout_secs": 300,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "locale-brief",
+      "agent": {
+        "name": "EXC-L3-Locale-Lead"
+      },
+      "prompt_template": "You are EXC-L3-Locale-Lead: split this ticket for your team (i18n strings and regional QA). Reply BRIEFED with the slices.\n\nTicket:\n{{analytics_handoff}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "locale_brief"
+    },
+    {
+      "name": "locale-w-stringextractor",
+      "agent": {
+        "name": "EXC-L4-Locale-StringExtractor"
+      },
+      "prompt_template": "You are EXC-L4-Locale-StringExtractor (Locale team): do your part — i18n strings and regional QA. End with APPROVED or FAIL: reasons.\n\n{{locale_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "locale_stringextractor"
+    },
+    {
+      "name": "locale-w-localetester",
+      "agent": {
+        "name": "EXC-L4-Locale-LocaleTester"
+      },
+      "prompt_template": "You are EXC-L4-Locale-LocaleTester (Locale team): do your part — i18n strings and regional QA. End with APPROVED or FAIL: reasons.\n\n{{locale_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "locale_localetester"
+    },
+    {
+      "name": "locale-w-glossarykeeper",
+      "agent": {
+        "name": "EXC-L4-Locale-GlossaryKeeper"
+      },
+      "prompt_template": "You are EXC-L4-Locale-GlossaryKeeper (Locale team): do your part — i18n strings and regional QA. End with APPROVED or FAIL: reasons.\n\n{{locale_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "locale_glossarykeeper"
+    },
+    {
+      "name": "locale-gather-0",
+      "agent": {
+        "name": "EXC-L3-Locale-Lead"
+      },
+      "prompt_template": "unused",
+      "mode": "collect",
+      "timeout_secs": 120,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "locale-bundle",
+      "agent": {
+        "name": "EXC-L3-Locale-Lead"
+      },
+      "prompt_template": "You are EXC-L3-Locale-Lead: bundle team outputs into one handoff packet with evidence checklist.\n\n{{input}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "locale_handoff"
+    },
+    {
+      "name": "locale-gate",
+      "agent": {
+        "name": "EXC-L5-Locale-QA"
+      },
+      "prompt_template": "You are EXC-L5-Locale-QA: verify against acceptance criteria + Prompt-Surgeon rewrite on fail. Reply APPROVED or FAIL: reasons.\n\n{{locale_handoff}}",
+      "mode": {
+        "loop": {
+          "max_iterations": 3,
+          "until": "APPROVED"
+        }
+      },
+      "timeout_secs": 300,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "orchestration-brief",
+      "agent": {
+        "name": "EXC-L3-Orchestration-Lead"
+      },
+      "prompt_template": "You are EXC-L3-Orchestration-Lead: split this ticket for your team (routing, waves, fallbacks, Gate-C liaison). Reply BRIEFED with the slices.\n\nTicket:\n{{locale_handoff}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "orchestration_brief"
+    },
+    {
+      "name": "orchestration-w-taskrouter",
+      "agent": {
+        "name": "EXC-L4-Orchestration-TaskRouter"
+      },
+      "prompt_template": "You are EXC-L4-Orchestration-TaskRouter (Orchestration team): do your part — routing, waves, fallbacks, Gate-C liaison. End with APPROVED or FAIL: reasons.\n\n{{orchestration_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "orchestration_taskrouter"
+    },
+    {
+      "name": "orchestration-w-wavescheduler",
+      "agent": {
+        "name": "EXC-L4-Orchestration-WaveScheduler"
+      },
+      "prompt_template": "You are EXC-L4-Orchestration-WaveScheduler (Orchestration team): do your part — routing, waves, fallbacks, Gate-C liaison. End with APPROVED or FAIL: reasons.\n\n{{orchestration_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "orchestration_wavescheduler"
+    },
+    {
+      "name": "orchestration-w-fallbackmonitor",
+      "agent": {
+        "name": "EXC-L4-Orchestration-FallbackMonitor"
+      },
+      "prompt_template": "You are EXC-L4-Orchestration-FallbackMonitor (Orchestration team): do your part — routing, waves, fallbacks, Gate-C liaison. End with APPROVED or FAIL: reasons.\n\n{{orchestration_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "orchestration_fallbackmonitor"
+    },
+    {
+      "name": "orchestration-w-costaccountant",
+      "agent": {
+        "name": "EXC-L4-Orchestration-CostAccountant"
+      },
+      "prompt_template": "You are EXC-L4-Orchestration-CostAccountant (Orchestration team): do your part — routing, waves, fallbacks, Gate-C liaison. End with APPROVED or FAIL: reasons.\n\n{{orchestration_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "orchestration_costaccountant"
+    },
+    {
+      "name": "orchestration-w-healthdashboard",
+      "agent": {
+        "name": "EXC-L4-Orchestration-HealthDashboard"
+      },
+      "prompt_template": "You are EXC-L4-Orchestration-HealthDashboard (Orchestration team): do your part — routing, waves, fallbacks, Gate-C liaison. End with APPROVED or FAIL: reasons.\n\n{{orchestration_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "orchestration_healthdashboard"
+    },
+    {
+      "name": "orchestration-w-retryqueuekeeper",
+      "agent": {
+        "name": "EXC-L4-Orchestration-RetryQueueKeeper"
+      },
+      "prompt_template": "You are EXC-L4-Orchestration-RetryQueueKeeper (Orchestration team): do your part — routing, waves, fallbacks, Gate-C liaison. End with APPROVED or FAIL: reasons.\n\n{{orchestration_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "orchestration_retryqueuekeeper"
+    },
+    {
+      "name": "orchestration-w-deadletternurse",
+      "agent": {
+        "name": "EXC-L4-Orchestration-DeadletterNurse"
+      },
+      "prompt_template": "You are EXC-L4-Orchestration-DeadletterNurse (Orchestration team): do your part — routing, waves, fallbacks, Gate-C liaison. End with APPROVED or FAIL: reasons.\n\n{{orchestration_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "orchestration_deadletternurse"
+    },
+    {
+      "name": "orchestration-w-throughputtuner",
+      "agent": {
+        "name": "EXC-L4-Orchestration-ThroughputTuner"
+      },
+      "prompt_template": "You are EXC-L4-Orchestration-ThroughputTuner (Orchestration team): do your part — routing, waves, fallbacks, Gate-C liaison. End with APPROVED or FAIL: reasons.\n\n{{orchestration_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "orchestration_throughputtuner"
+    },
+    {
+      "name": "orchestration-gather-0",
+      "agent": {
+        "name": "EXC-L3-Orchestration-Lead"
+      },
+      "prompt_template": "unused",
+      "mode": "collect",
+      "timeout_secs": 120,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "orchestration-w-promptlibrarian",
+      "agent": {
+        "name": "EXC-L4-Orchestration-PromptLibrarian"
+      },
+      "prompt_template": "You are EXC-L4-Orchestration-PromptLibrarian (Orchestration team): do your part — routing, waves, fallbacks, Gate-C liaison. End with APPROVED or FAIL: reasons.\n\n{{orchestration_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "orchestration_promptlibrarian"
+    },
+    {
+      "name": "orchestration-w-gatecliaison",
+      "agent": {
+        "name": "EXC-L4-Orchestration-GateCLiaison"
+      },
+      "prompt_template": "You are EXC-L4-Orchestration-GateCLiaison (Orchestration team): do your part — routing, waves, fallbacks, Gate-C liaison. End with APPROVED or FAIL: reasons.\n\n{{orchestration_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "orchestration_gatecliaison"
+    },
+    {
+      "name": "orchestration-gather-1",
+      "agent": {
+        "name": "EXC-L3-Orchestration-Lead"
+      },
+      "prompt_template": "unused",
+      "mode": "collect",
+      "timeout_secs": 120,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "orchestration-bundle",
+      "agent": {
+        "name": "EXC-L3-Orchestration-Lead"
+      },
+      "prompt_template": "You are EXC-L3-Orchestration-Lead: bundle team outputs into one handoff packet with evidence checklist.\n\n{{input}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "orchestration_handoff"
+    },
+    {
+      "name": "orchestration-gate",
+      "agent": {
+        "name": "EXC-L5-Orchestration-QA"
+      },
+      "prompt_template": "You are EXC-L5-Orchestration-QA: verify against acceptance criteria + Prompt-Surgeon rewrite on fail. Reply APPROVED or FAIL: reasons.\n\n{{orchestration_handoff}}",
+      "mode": {
+        "loop": {
+          "max_iterations": 3,
+          "until": "APPROVED"
+        }
+      },
+      "timeout_secs": 300,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "legal-brief",
+      "agent": {
+        "name": "EXC-L3-Legal-Lead"
+      },
+      "prompt_template": "You are EXC-L3-Legal-Lead: split this ticket for your team (license checks and PII redaction gates). Reply BRIEFED with the slices.\n\nTicket:\n{{orchestration_handoff}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "legal_brief"
+    },
+    {
+      "name": "legal-w-licensechecker",
+      "agent": {
+        "name": "EXC-L4-Legal-LicenseChecker"
+      },
+      "prompt_template": "You are EXC-L4-Legal-LicenseChecker (Legal team): do your part — license checks and PII redaction gates. End with APPROVED or FAIL: reasons.\n\n{{legal_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "legal_licensechecker"
+    },
+    {
+      "name": "legal-w-privacysweeper",
+      "agent": {
+        "name": "EXC-L4-Legal-PrivacySweeper"
+      },
+      "prompt_template": "You are EXC-L4-Legal-PrivacySweeper (Legal team): do your part — license checks and PII redaction gates. End with APPROVED or FAIL: reasons.\n\n{{legal_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "legal_privacysweeper"
+    },
+    {
+      "name": "legal-w-termswatcher",
+      "agent": {
+        "name": "EXC-L4-Legal-TermsWatcher"
+      },
+      "prompt_template": "You are EXC-L4-Legal-TermsWatcher (Legal team): do your part — license checks and PII redaction gates. End with APPROVED or FAIL: reasons.\n\n{{legal_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "legal_termswatcher"
+    },
+    {
+      "name": "legal-gather-0",
+      "agent": {
+        "name": "EXC-L3-Legal-Lead"
+      },
+      "prompt_template": "unused",
+      "mode": "collect",
+      "timeout_secs": 120,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "legal-bundle",
+      "agent": {
+        "name": "EXC-L3-Legal-Lead"
+      },
+      "prompt_template": "You are EXC-L3-Legal-Lead: bundle team outputs into one handoff packet with evidence checklist.\n\n{{input}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "legal_handoff"
+    },
+    {
+      "name": "legal-gate",
+      "agent": {
+        "name": "EXC-L5-Legal-QA"
+      },
+      "prompt_template": "You are EXC-L5-Legal-QA: verify against acceptance criteria + Prompt-Surgeon rewrite on fail. Reply APPROVED or FAIL: reasons.\n\n{{legal_handoff}}",
+      "mode": {
+        "loop": {
+          "max_iterations": 3,
+          "until": "APPROVED"
+        }
+      },
+      "timeout_secs": 300,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "product-brief",
+      "agent": {
+        "name": "EXC-L3-Product-Lead"
+      },
+      "prompt_template": "You are EXC-L3-Product-Lead: split this ticket for your team (ranking, scope bounds, Phase 0 sign-off). Reply BRIEFED with the slices.\n\nTicket:\n{{legal_handoff}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "product_brief"
+    },
+    {
+      "name": "product-w-prioritizer",
+      "agent": {
+        "name": "EXC-L4-Product-Prioritizer"
+      },
+      "prompt_template": "You are EXC-L4-Product-Prioritizer (Product team): do your part — ranking, scope bounds, Phase 0 sign-off. End with APPROVED or FAIL: reasons.\n\n{{product_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "product_prioritizer"
+    },
+    {
+      "name": "product-w-scopeguard",
+      "agent": {
+        "name": "EXC-L4-Product-ScopeGuard"
+      },
+      "prompt_template": "You are EXC-L4-Product-ScopeGuard (Product team): do your part — ranking, scope bounds, Phase 0 sign-off. End with APPROVED or FAIL: reasons.\n\n{{product_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "product_scopeguard"
+    },
+    {
+      "name": "product-w-roadmapkeeper",
+      "agent": {
+        "name": "EXC-L4-Product-RoadmapKeeper"
+      },
+      "prompt_template": "You are EXC-L4-Product-RoadmapKeeper (Product team): do your part — ranking, scope bounds, Phase 0 sign-off. End with APPROVED or FAIL: reasons.\n\n{{product_brief}}",
+      "mode": "fan_out",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "product_roadmapkeeper"
+    },
+    {
+      "name": "product-gather-0",
+      "agent": {
+        "name": "EXC-L3-Product-Lead"
+      },
+      "prompt_template": "unused",
+      "mode": "collect",
+      "timeout_secs": 120,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "product-bundle",
+      "agent": {
+        "name": "EXC-L3-Product-Lead"
+      },
+      "prompt_template": "You are EXC-L3-Product-Lead: bundle team outputs into one handoff packet with evidence checklist.\n\n{{input}}",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "product_handoff"
+    },
+    {
+      "name": "product-gate",
+      "agent": {
+        "name": "EXC-L5-Product-QA"
+      },
+      "prompt_template": "You are EXC-L5-Product-QA: verify against acceptance criteria + Prompt-Surgeon rewrite on fail. Reply APPROVED or FAIL: reasons.\n\n{{product_handoff}}",
+      "mode": {
+        "loop": {
+          "max_iterations": 3,
+          "until": "APPROVED"
+        }
+      },
+      "timeout_secs": 300,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "release-e2e",
+      "agent": {
+        "name": "EXC-L2-ReleaseGate"
+      },
+      "prompt_template": "Cross-team E2E over the full chain + Circuit-Breaker watch. Reply APPROVED or HUMAN_REQUIRED: why.",
+      "mode": "sequential",
+      "timeout_secs": 1200,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "founder-sign",
+      "agent": {
+        "name": "EXC-L1-Founder"
+      },
+      "prompt_template": "Final sign-off on this company release packet. End with APPROVED or FAIL: reasons.",
+      "mode": "sequential",
+      "timeout_secs": 600,
+      "error_mode": "fail",
+      "output_var": null
+    }
+  ],
+  "created_at": "2026-09-11T14:05:24.469074582Z"
+}

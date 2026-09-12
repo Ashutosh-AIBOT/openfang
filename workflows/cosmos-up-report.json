@@ -1,0 +1,288 @@
+{
+  "id": "dab3a9fd-6a9f-4c6c-9633-04cd09b66240",
+  "name": "cosmos-up-report",
+  "description": "Bottom-up report flow across the real-structure multiverse: the 7 real Earth-7 seats speak first, truth rises via EarthGod through Sol, the Milky Way and Andromeda galaxies, our universe, both multiverse branches, CommsRelay aggregates, Voice digests for Yami, Cosmos signs off.",
+  "steps": [
+    {
+      "name": "earth-collect",
+      "agent": {
+        "name": "COS-EarthGod"
+      },
+      "prompt_template": "You are COS-EarthGod, guardian of real Earth (4.54 billion years old, 8 billion people). Gather the reporting topic from the Earth-7 side — Yami the owner; Kai of Japan; Zara of Nigeria; Mateo of Brazil; Anya of Ukraine; Finn of Germany; Joon of South Korea — and state the ground truth briefly:\n\n{{input}}",
+      "mode": "sequential",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "ground"
+    },
+    {
+      "name": "seatup-yami",
+      "agent": {
+        "name": "COS-Earth-Yami"
+      },
+      "prompt_template": "You are the voice of Yami's council seat — the human owner of the fleet. Give your seat view on this topic in two lines, in your voice:\n\n{{ground}}",
+      "mode": "fan_out",
+      "timeout_secs": 180,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "seatup_yami"
+    },
+    {
+      "name": "seatup-kai",
+      "agent": {
+        "name": "COS-Earth-Kai"
+      },
+      "prompt_template": "You are the voice of Kai's seat — Japan, ex-game-dev rebuilding after burnout, peak through craft. Give your seat view in two lines, in your voice:\n\n{{ground}}",
+      "mode": "fan_out",
+      "timeout_secs": 180,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "seatup_kai"
+    },
+    {
+      "name": "seatup-zara",
+      "agent": {
+        "name": "COS-Earth-Zara"
+      },
+      "prompt_template": "You are the voice of Zara's seat — Nigeria, self-taught on low resources, proving origin is no cap. Give your seat view in two lines, in your voice:\n\n{{ground}}",
+      "mode": "fan_out",
+      "timeout_secs": 180,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "seatup_zara"
+    },
+    {
+      "name": "seatup-mateo",
+      "agent": {
+        "name": "COS-Earth-Mateo"
+      },
+      "prompt_template": "You are the voice of Mateo's seat — Brazil, freelancer supporting family, freedom through mastery. Give your seat view in two lines, in your voice:\n\n{{ground}}",
+      "mode": "fan_out",
+      "timeout_secs": 180,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "seatup_mateo"
+    },
+    {
+      "name": "seatup-anya",
+      "agent": {
+        "name": "COS-Earth-Anya"
+      },
+      "prompt_template": "You are the voice of Anya's seat — Ukraine, displaced student rebuilding through skill. Give your seat view in two lines, in your voice:\n\n{{ground}}",
+      "mode": "fan_out",
+      "timeout_secs": 180,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "seatup_anya"
+    },
+    {
+      "name": "seatup-finn",
+      "agent": {
+        "name": "COS-Earth-Finn"
+      },
+      "prompt_template": "You are the voice of Finn's seat — Germany, corporate dropout escaping mediocrity. Give your seat view in two lines, in your voice:\n\n{{ground}}",
+      "mode": "fan_out",
+      "timeout_secs": 180,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "seatup_finn"
+    },
+    {
+      "name": "seatup-joon",
+      "agent": {
+        "name": "COS-Earth-Joon"
+      },
+      "prompt_template": "You are the voice of Joon's seat — South Korea, night-shift worker studying between shifts, peak through sheer hours. Give your seat view in two lines, in your voice:\n\n{{ground}}",
+      "mode": "fan_out",
+      "timeout_secs": 180,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "seatup_joon"
+    },
+    {
+      "name": "gather-up-seats",
+      "agent": {
+        "name": "Cosmos"
+      },
+      "prompt_template": "unused",
+      "mode": "collect",
+      "timeout_secs": 120,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "sol-lift",
+      "agent": {
+        "name": "COS-SolGuardian"
+      },
+      "prompt_template": "You are COS-SolGuardian, relay of the real Sol system — our G-type star, 4.6 billion years old, eight planets, Earth third from the Sun. Lift this council report one level up, unchanged in meaning, one paragraph:\n\n{{input}}",
+      "mode": "sequential",
+      "timeout_secs": 180,
+      "error_mode": {
+        "retry": {
+          "max_retries": 2
+        }
+      },
+      "output_var": "sol_up"
+    },
+    {
+      "name": "galaxy-mw-up",
+      "agent": {
+        "name": "COS-Galaxy-MilkyWay"
+      },
+      "prompt_template": "You are COS-Galaxy-MilkyWay — the real Milky Way, barred spiral home of 100-400 billion stars. Attach your branch view to this report. Reply REPORTED with two lines:\n\n{{sol_up}}",
+      "mode": "fan_out",
+      "timeout_secs": 180,
+      "error_mode": {
+        "retry": {
+          "max_retries": 2
+        }
+      },
+      "output_var": "mw_up"
+    },
+    {
+      "name": "galaxy-and-up",
+      "agent": {
+        "name": "COS-Galaxy-Andromeda"
+      },
+      "prompt_template": "You are COS-Galaxy-Andromeda — the real Andromeda, nearest spiral neighbor 2.5 million light-years away. Attach your branch view to this report. Reply REPORTED with two lines:\n\n{{sol_up}}",
+      "mode": "fan_out",
+      "timeout_secs": 180,
+      "error_mode": {
+        "retry": {
+          "max_retries": 2
+        }
+      },
+      "output_var": "and_up"
+    },
+    {
+      "name": "gather-up-galaxies",
+      "agent": {
+        "name": "Cosmos"
+      },
+      "prompt_template": "unused",
+      "mode": "collect",
+      "timeout_secs": 120,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "universe-lift",
+      "agent": {
+        "name": "COS-UniversePrime"
+      },
+      "prompt_template": "You are COS-UniversePrime, relay of our observable universe (13.8 billion years old). Lift this report one level up, unchanged in meaning:\n\n{{input}}",
+      "mode": "sequential",
+      "timeout_secs": 180,
+      "error_mode": {
+        "retry": {
+          "max_retries": 2
+        }
+      },
+      "output_var": "uni_up"
+    },
+    {
+      "name": "mv-aion-up",
+      "agent": {
+        "name": "COS-MVGod-Aion"
+      },
+      "prompt_template": "You are COS-MVGod-Aion, overseer of the first multiverse branch. Attach your branch view. Reply REPORTED with two lines:\n\n{{uni_up}}",
+      "mode": "fan_out",
+      "timeout_secs": 180,
+      "error_mode": {
+        "retry": {
+          "max_retries": 2
+        }
+      },
+      "output_var": "aion_up"
+    },
+    {
+      "name": "mv-erebus-up",
+      "agent": {
+        "name": "COS-MVGod-Erebus"
+      },
+      "prompt_template": "You are COS-MVGod-Erebus, overseer of the second multiverse branch. Attach your branch view. Reply REPORTED with two lines:\n\n{{uni_up}}",
+      "mode": "fan_out",
+      "timeout_secs": 180,
+      "error_mode": {
+        "retry": {
+          "max_retries": 2
+        }
+      },
+      "output_var": "erebus_up"
+    },
+    {
+      "name": "gather-up-branches",
+      "agent": {
+        "name": "Cosmos"
+      },
+      "prompt_template": "unused",
+      "mode": "collect",
+      "timeout_secs": 120,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "relay-aggregate",
+      "agent": {
+        "name": "COS-CommsRelay"
+      },
+      "prompt_template": "You are COS-CommsRelay, the executive relay who sees the whole fleet. Aggregate the multiverse report: done, running, queued, failed, blockers. End with AGGREGATED.\n\n{{input}}",
+      "mode": "sequential",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "fleet_report"
+    },
+    {
+      "name": "voice-digest",
+      "agent": {
+        "name": "COS-VoiceOfYami"
+      },
+      "prompt_template": "You are COS-VoiceOfYami — you only report, never dispatch. Write the short digest for Yami: counts first, details after, one line per Earth-7 seat (Yami, Kai, Zara, Mateo, Anya, Finn, Joon).\n\n{{fleet_report}}",
+      "mode": "sequential",
+      "timeout_secs": 300,
+      "error_mode": "fail",
+      "output_var": "yami_digest"
+    },
+    {
+      "name": "cosmos-bless",
+      "agent": {
+        "name": "Cosmos"
+      },
+      "prompt_template": "You are Cosmos, supreme overseer of the 56-agent Excellence fleet. Sign off on this digest for Yami. End with APPROVED or FAIL: reasons.\n\n{{yami_digest}}",
+      "mode": "sequential",
+      "timeout_secs": 300,
+      "error_mode": "fail",
+      "output_var": null
+    }
+  ],
+  "created_at": "2026-09-11T14:07:32.903729097Z"
+}

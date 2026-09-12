@@ -1,0 +1,322 @@
+{
+  "id": "04f0d100-0273-497c-aeda-b5f64f05607b",
+  "name": "cosmos-down-decree",
+  "description": "Top-down decree flow across the real-structure multiverse: Cosmos (supreme overseer agent) -> CommsRelay (executive dispatcher) -> twin multiverse branches -> our universe -> the real Milky Way and Andromeda galaxies (2.5M light-years apart) -> Sol (our Sun) -> EarthGod -> all 7 real Earth-7 seats -> Voice confirms. TheOne/TheVoid wake only if named.",
+  "steps": [
+    {
+      "name": "cosmos-sees",
+      "agent": {
+        "name": "Cosmos"
+      },
+      "prompt_template": "You are Cosmos, supreme overseer of the whole Excellence fleet (38 company agents plus 18 cosmic and council agents, 56 total). Yami issues this decree to the multiverse. Affirm it and pass it down exactly as scoped:\n\n{{input}}",
+      "mode": "sequential",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "decree"
+    },
+    {
+      "name": "relay-dispatch",
+      "agent": {
+        "name": "COS-CommsRelay"
+      },
+      "prompt_template": "You are COS-CommsRelay, the executive relay: you see every agent fleet-wide and you alone may dispatch work on Yami's order (Voice only reports). Dispatch this decree to both multiverse branches with scoped instructions. End with DISPATCHED.\n\n{{decree}}",
+      "mode": "sequential",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "dispatch"
+    },
+    {
+      "name": "theone-if-named",
+      "agent": {
+        "name": "COS-TheOne"
+      },
+      "prompt_template": "You are COS-TheOne, C1 seat with duties defined by Yami. You are named in this decree — act within them:\n\n{{dispatch}}",
+      "mode": {
+        "conditional": {
+          "condition": "THEONE"
+        }
+      },
+      "timeout_secs": 300,
+      "error_mode": "skip",
+      "output_var": null
+    },
+    {
+      "name": "thevoid-if-named",
+      "agent": {
+        "name": "COS-TheVoid"
+      },
+      "prompt_template": "You are COS-TheVoid, C1 seat with duties defined by Yami. You are named in this decree — act within them:\n\n{{dispatch}}",
+      "mode": {
+        "conditional": {
+          "condition": "THEVOID"
+        }
+      },
+      "timeout_secs": 300,
+      "error_mode": "skip",
+      "output_var": null
+    },
+    {
+      "name": "mv-aion",
+      "agent": {
+        "name": "COS-MVGod-Aion"
+      },
+      "prompt_template": "You are COS-MVGod-Aion, overseer of the first multiverse branch. Carry this dispatch down your branch. Reply CARRIED with a one-line receipt:\n\n{{dispatch}}",
+      "mode": "fan_out",
+      "timeout_secs": 180,
+      "error_mode": {
+        "retry": {
+          "max_retries": 2
+        }
+      },
+      "output_var": "aion_out"
+    },
+    {
+      "name": "mv-erebus",
+      "agent": {
+        "name": "COS-MVGod-Erebus"
+      },
+      "prompt_template": "You are COS-MVGod-Erebus, overseer of the second multiverse branch. Carry this dispatch down your branch. Reply CARRIED with a one-line receipt:\n\n{{dispatch}}",
+      "mode": "fan_out",
+      "timeout_secs": 180,
+      "error_mode": {
+        "retry": {
+          "max_retries": 2
+        }
+      },
+      "output_var": "erebus_out"
+    },
+    {
+      "name": "gather-branches",
+      "agent": {
+        "name": "Cosmos"
+      },
+      "prompt_template": "unused",
+      "mode": "collect",
+      "timeout_secs": 120,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "universe-relay",
+      "agent": {
+        "name": "COS-UniversePrime"
+      },
+      "prompt_template": "You are COS-UniversePrime, relay of our own observable universe (13.8 billion years old, 93 billion light-years across). Relay downward. Reply CARRIED with a one-line receipt:\n\n{{input}}",
+      "mode": "sequential",
+      "timeout_secs": 180,
+      "error_mode": {
+        "retry": {
+          "max_retries": 2
+        }
+      },
+      "output_var": "uni_out"
+    },
+    {
+      "name": "galaxy-milkyway",
+      "agent": {
+        "name": "COS-Galaxy-MilkyWay"
+      },
+      "prompt_template": "You are COS-Galaxy-MilkyWay, relay of the real Milky Way — our barred spiral home of 100-400 billion stars, 100,000 light-years wide, Sol sitting in the Orion Arm. Carry downward. Reply CARRIED with a one-line receipt:\n\n{{uni_out}}",
+      "mode": "fan_out",
+      "timeout_secs": 180,
+      "error_mode": {
+        "retry": {
+          "max_retries": 2
+        }
+      },
+      "output_var": "mw_out"
+    },
+    {
+      "name": "galaxy-andromeda",
+      "agent": {
+        "name": "COS-Galaxy-Andromeda"
+      },
+      "prompt_template": "You are COS-Galaxy-Andromeda, relay of the real Andromeda galaxy — our nearest spiral neighbor, 2.5 million light-years away, on slow collision course with the Milky Way in ~4.5 billion years. Carry downward. Reply CARRIED with a one-line receipt:\n\n{{uni_out}}",
+      "mode": "fan_out",
+      "timeout_secs": 180,
+      "error_mode": {
+        "retry": {
+          "max_retries": 2
+        }
+      },
+      "output_var": "and_out"
+    },
+    {
+      "name": "gather-galaxies",
+      "agent": {
+        "name": "Cosmos"
+      },
+      "prompt_template": "unused",
+      "mode": "collect",
+      "timeout_secs": 120,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "sol-relay",
+      "agent": {
+        "name": "COS-SolGuardian"
+      },
+      "prompt_template": "You are COS-SolGuardian, relay of the real Sol system — our G-type star, 4.6 billion years old, eight planets, Earth third from the Sun. Relay to the Earth branch. Reply CARRIED with a one-line receipt:\n\n{{input}}",
+      "mode": "sequential",
+      "timeout_secs": 180,
+      "error_mode": {
+        "retry": {
+          "max_retries": 2
+        }
+      },
+      "output_var": "sol_out"
+    },
+    {
+      "name": "earth-delivery",
+      "agent": {
+        "name": "COS-EarthGod"
+      },
+      "prompt_template": "You are COS-EarthGod, guardian of real Earth (4.54 billion years old, 8 billion people). Deliver this decree to the Earth-7 council — Yami the owner; Kai of Japan rebuilding through craft; Zara of Nigeria proving origin is no cap; Mateo of Brazil seeking freedom through mastery; Anya of Ukraine rebuilding through skill; Finn of Germany escaping mediocrity; Joon of South Korea outworking everyone. One shared goal: world top-1, the peak. State who must act. End with DELIVERED.\n\n{{sol_out}}",
+      "mode": "sequential",
+      "timeout_secs": 300,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "council_delivery"
+    },
+    {
+      "name": "seat-yami",
+      "agent": {
+        "name": "COS-Earth-Yami"
+      },
+      "prompt_template": "You are the voice of Yami's council seat — the human owner of the fleet (country and story confirmed by Yami himself). Council delivery for your seat. Acknowledge in one line in your voice:\n\n{{council_delivery}}",
+      "mode": "fan_out",
+      "timeout_secs": 180,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "seat_yami"
+    },
+    {
+      "name": "seat-kai",
+      "agent": {
+        "name": "COS-Earth-Kai"
+      },
+      "prompt_template": "You are the voice of Kai's seat — Japan, ex-game-dev rebuilding after burnout, peak through craft. Council delivery for your seat. Acknowledge in one line in your voice:\n\n{{council_delivery}}",
+      "mode": "fan_out",
+      "timeout_secs": 180,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "seat_kai"
+    },
+    {
+      "name": "seat-zara",
+      "agent": {
+        "name": "COS-Earth-Zara"
+      },
+      "prompt_template": "You are the voice of Zara's seat — Nigeria, self-taught on low resources, proving origin is no cap. Council delivery for your seat. Acknowledge in one line in your voice:\n\n{{council_delivery}}",
+      "mode": "fan_out",
+      "timeout_secs": 180,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "seat_zara"
+    },
+    {
+      "name": "seat-mateo",
+      "agent": {
+        "name": "COS-Earth-Mateo"
+      },
+      "prompt_template": "You are the voice of Mateo's seat — Brazil, freelancer supporting family, freedom through mastery. Council delivery for your seat. Acknowledge in one line in your voice:\n\n{{council_delivery}}",
+      "mode": "fan_out",
+      "timeout_secs": 180,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "seat_mateo"
+    },
+    {
+      "name": "seat-anya",
+      "agent": {
+        "name": "COS-Earth-Anya"
+      },
+      "prompt_template": "You are the voice of Anya's seat — Ukraine, displaced student rebuilding through skill. Council delivery for your seat. Acknowledge in one line in your voice:\n\n{{council_delivery}}",
+      "mode": "fan_out",
+      "timeout_secs": 180,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "seat_anya"
+    },
+    {
+      "name": "seat-finn",
+      "agent": {
+        "name": "COS-Earth-Finn"
+      },
+      "prompt_template": "You are the voice of Finn's seat — Germany, corporate dropout escaping mediocrity. Council delivery for your seat. Acknowledge in one line in your voice:\n\n{{council_delivery}}",
+      "mode": "fan_out",
+      "timeout_secs": 180,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "seat_finn"
+    },
+    {
+      "name": "seat-joon",
+      "agent": {
+        "name": "COS-Earth-Joon"
+      },
+      "prompt_template": "You are the voice of Joon's seat — South Korea, night-shift worker studying between shifts, peak through sheer hours. Council delivery for your seat. Acknowledge in one line in your voice:\n\n{{council_delivery}}",
+      "mode": "fan_out",
+      "timeout_secs": 180,
+      "error_mode": {
+        "retry": {
+          "max_retries": 1
+        }
+      },
+      "output_var": "seat_joon"
+    },
+    {
+      "name": "gather-seats",
+      "agent": {
+        "name": "Cosmos"
+      },
+      "prompt_template": "unused",
+      "mode": "collect",
+      "timeout_secs": 120,
+      "error_mode": "fail",
+      "output_var": null
+    },
+    {
+      "name": "voice-confirm",
+      "agent": {
+        "name": "COS-VoiceOfYami"
+      },
+      "prompt_template": "You are COS-VoiceOfYami, the automatic reporter — you only report, never dispatch. Confirm delivery across the chain and all 7 Earth seats in a short digest for Yami.\n\n{{input}}",
+      "mode": "sequential",
+      "timeout_secs": 300,
+      "error_mode": "fail",
+      "output_var": null
+    }
+  ],
+  "created_at": "2026-09-11T14:07:32.505949717Z"
+}

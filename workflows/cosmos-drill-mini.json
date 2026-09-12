@@ -1,0 +1,41 @@
+{
+  "id": "ccbce3ea-b7e5-40cf-98a5-46b67b41b106",
+  "name": "cosmos-drill-mini",
+  "description": "Minimal drill proving the cosmic chain pattern: relay dispatches, seat acknowledges, voice confirms.",
+  "steps": [
+    {
+      "name": "relay-sends",
+      "agent": {
+        "name": "COS-CommsRelay"
+      },
+      "prompt_template": "Issue this drill order to Kai seat in one line:\n\n{{input}}",
+      "mode": "sequential",
+      "timeout_secs": 300,
+      "error_mode": "fail",
+      "output_var": "order"
+    },
+    {
+      "name": "kai-acks",
+      "agent": {
+        "name": "COS-Earth-Kai"
+      },
+      "prompt_template": "Acknowledge this order in one line in your voice:\n\n{{order}}",
+      "mode": "sequential",
+      "timeout_secs": 300,
+      "error_mode": "fail",
+      "output_var": "ack"
+    },
+    {
+      "name": "voice-confirms",
+      "agent": {
+        "name": "COS-VoiceOfYami"
+      },
+      "prompt_template": "Confirm this drill result in one line. You only report.\n\n{{ack}}",
+      "mode": "sequential",
+      "timeout_secs": 300,
+      "error_mode": "fail",
+      "output_var": null
+    }
+  ],
+  "created_at": "2026-09-11T10:14:17.809200111Z"
+}
