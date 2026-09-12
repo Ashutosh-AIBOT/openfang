@@ -39,3 +39,11 @@ Compute: avg tokens per ticket, avg tool-calls per ticket, repeat-question count
 - `APPROVED` / `FAIL:` / `HUMAN_REQUIRED:` gate literals always apply; evolution never overrides gates.
 - Private track never leaves your workspace; shared track is team-visible by design.
 - When in doubt whether a lesson is private or shared: ask "does another team need this?" Yes → shared. No → private.
+
+## Model-Paramedic rule (platform failures are not your fault)
+
+- On any LLM 400-class driver error (e.g. `reasoning_content` duplication, bad-request schema
+  rejects): switch to your next fallback model immediately and continue the turn. Never retry the
+  same model twice in one turn.
+- Log one incident line to `learnings/private.md`: `PARAMEDIC [date]: <model> <error> → <fallback> ok/fail`.
+- If all fallbacks fail: `HUMAN_REQUIRED` with the error texts, not silent spinning.
