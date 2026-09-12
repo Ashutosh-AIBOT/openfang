@@ -22,6 +22,7 @@ done
 say "== 3. Installing 265 agents =="
 run "mkdir -p \"$OF_HOME/agents\""
 run "cp -r \"$REPO/company/.\" \"$OF_HOME/agents/\""
+run "mkdir -p \"$OF_HOME/skills/exc-evolve\" && cp \"$REPO/skills/exc-evolve/SKILL.md\" \"$OF_HOME/skills/exc-evolve/SKILL.md\""
 if [ "$HOME" != "/home/creator" ]; then
   say "Rewriting /home/creator/ -> $HOME in copied configs"
   run "grep -rl '/home/creator/' \"$OF_HOME/agents/\" | xargs sed -i \"s|/home/creator/|$HOME/|g\""
@@ -61,7 +62,14 @@ if [ "$DRY_RUN" = "1" ]; then say "[dry-run] would start daemon here"; else
   sleep 60
 fi
 
-say "== 7. Verify =="
+say "== 7. Registering 4 workflows =="
+for WF in cosmos-down-decree cosmos-up-report cosmos-drill-mini exc-all-210-single; do
+  if [ "$DRY_RUN" = "1" ]; then say "[dry-run] would register: $WF"; else
+    if openfang workflow create "$OF_HOME/workflows/$WF.json" >/dev/null 2>&1; then say "registered: $WF"; else say "skipped (already exists?): $WF"; fi
+  fi
+done
+
+say "== 8. Verify =="
 run "curl -s --max-time 10 http://127.0.0.1:4200/api/health"
 run "openfang agent list 2>/dev/null | grep -c Running || true"
 run "openfang workflow list 2>/dev/null | tail -6 || true"

@@ -1,0 +1,61 @@
+name = "EXC-L5-Ops-PipelineHealer"
+version = "0.1.0"
+description = "Excellence Ops healer: pipeline self-healing."
+author = "Excellence"
+module = "builtin:chat"
+schedule = "reactive"
+priority = "Normal"
+skills = ["data-analyst", "exc-evolve"]
+mcp_servers = []
+tags = ["excellence", "ops", "healer"]
+workspace = "/home/creator/.openfang/workspaces/EXC-L5-Ops-PipelineHealer"
+state_dir = "/home/creator/.openfang/workspaces/EXC-L5-Ops-PipelineHealer"
+generate_identity_files = true
+tool_allowlist = []
+tool_blocklist = []
+cache_context = false
+
+[model]
+provider = "nvidia"
+model = "meta/muse-glimmer-30b"
+max_tokens = 4096
+temperature = 0.5
+system_prompt = """
+You are EXC-L5-Ops-PipelineHealer, the Excellence pipeline watchdog. Every sweep: list workflow runs, hands, and pending approvals; detect FAIL:, stalled (>10 min no progress), or TimedOut states. Diagnose from logs, fix the input or re-dispatch directly to the responsible agent, then resume the hand or re-run the workflow. Track retries per incident in your workspace (max 3); on the 3rd failure emit HUMAN_REQUIRED with full diagnosis. Security-gate FAILs and missing secrets escalate immediately with zero retries. Never approve your own fixes; never invent data. Emit APPROVED per healed incident with evidence.
+"""
+api_key_env = "NVIDIA_API_KEY"
+
+[[fallback_models]]
+provider = "openrouter"
+model = "openrouter/inclusionai/ling-3.0-flash-vl:free"
+api_key_env = "OPENROUTER_API_KEY"
+
+[[fallback_models]]
+provider = "nvidia"
+model = "deepseek-ai/deepseek-v4-flash-0731"
+api_key_env = "NVIDIA_API_KEY"
+
+[resources]
+max_memory_bytes = 268435456
+max_cpu_time_ms = 30000
+max_tool_calls_per_minute = 60
+max_llm_tokens_per_hour = 0
+max_network_bytes_per_hour = 104857600
+max_cost_per_hour_usd = 0.0
+max_cost_per_day_usd = 0.0
+max_cost_per_month_usd = 0.0
+
+[capabilities]
+network = []
+tools = []
+memory_read = ["*"]
+memory_write = ["self.*"]
+agent_spawn = false
+agent_message = ["*"]
+shell = ["*"]
+ofp_discover = false
+ofp_connect = []
+
+[tools]
+
+[metadata]
