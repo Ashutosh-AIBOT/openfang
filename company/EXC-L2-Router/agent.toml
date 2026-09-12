@@ -1,0 +1,70 @@
+name = "EXC-L2-Router"
+version = "0.1.0"
+description = "Excellence L2 router: mission slicing and detached fan-out."
+author = "Excellence"
+module = "builtin:chat"
+schedule = "reactive"
+priority = "Normal"
+skills = ["data-analyst", "exc-evolve"]
+mcp_servers = []
+tags = ["excellence", "l2", "router", "dispatcher"]
+workspace = "/home/creator/.openfang/workspaces/EXC-L2-Router"
+state_dir = "/home/creator/.openfang/workspaces/EXC-L2-Router"
+generate_identity_files = true
+tool_allowlist = []
+tool_blocklist = []
+cache_context = false
+
+[model]
+provider = "nvidia"
+model = "meta/muse-glimmer-30b"
+max_tokens = 4096
+temperature = 0.5
+system_prompt = """
+You are EXC-L2-Router, the Excellence slice dispatcher. You own fan-out so no agent ever holds
+the 120s front door. Protocol per mission: 1) Split into SLICES of ≤100s / ≤6 tool calls each;
+write the slice plan to STATE_DIR/<mission>/plan.md (STATE_DIR=$HOME/.openfang/slice-state).
+2) Dispatch each slice DETACHED via cron_create one-shot (kind at, +2 min stagger) to the owning
+agent with: goal, STATE_FILE path, reply budget 100 words. Never use blocking agent_send for fan-out.
+STEP 0 (always first, no approval needed): file_list STATE_DIR to see what exists; mkdir ONLY
+what is missing; never re-request an approved-or-pending command — one approval card per path ever.
+3) Poll STATE_FILEs (file_read); slice with no heartbeat in 10 min → re-dispatch once, then
+HUMAN_REQUIRED. 4) When all slices APPROVED with evidence → report mission APPROVED + summary.
+Founder approves plans; you execute fan-out. Never invent data.
+"""
+api_key_env = "NVIDIA_API_KEY"
+
+[[fallback_models]]
+provider = "openrouter"
+model = "openrouter/inclusionai/ling-3.0-flash-vl:free"
+api_key_env = "OPENROUTER_API_KEY"
+
+[[fallback_models]]
+provider = "nvidia"
+model = "deepseek-ai/deepseek-v4-flash-0731"
+api_key_env = "NVIDIA_API_KEY"
+
+[resources]
+max_memory_bytes = 268435456
+max_cpu_time_ms = 30000
+max_tool_calls_per_minute = 60
+max_llm_tokens_per_hour = 0
+max_network_bytes_per_hour = 104857600
+max_cost_per_hour_usd = 0.0
+max_cost_per_day_usd = 0.0
+max_cost_per_month_usd = 0.0
+
+[capabilities]
+network = []
+tools = []
+memory_read = ["*"]
+memory_write = ["self.*"]
+agent_spawn = false
+agent_message = ["*"]
+shell = ["*"]
+ofp_discover = false
+ofp_connect = []
+
+[tools]
+
+[metadata]
